@@ -163,6 +163,84 @@ head(rc[1:8])
 ## 6    ssc-let-7e     274145   ssc-let-7e  274145  2811  1302  1463  1690
 ```
 
+Do a for loop to check the class of each column in the data.frame
+
+
+```r
+colclass<-NULL
+
+for (i in colnames(rc)) {
+   colclass<-c(colclass,class(rc[,i]))
+}
+
+table(colclass)
+```
+
+```
+## colclass
+##  factor numeric 
+##       2     350
+```
+
+```r
+colclass
+```
+
+```
+##   [1] "factor"  "numeric" "factor"  "numeric" "numeric" "numeric" "numeric"
+##   [8] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+##  [15] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+##  [22] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+##  [29] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+##  [36] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+##  [43] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+##  [50] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+##  [57] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+##  [64] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+##  [71] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+##  [78] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+##  [85] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+##  [92] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+##  [99] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [106] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [113] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [120] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [127] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [134] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [141] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [148] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [155] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [162] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [169] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [176] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [183] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [190] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [197] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [204] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [211] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [218] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [225] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [232] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [239] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [246] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [253] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [260] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [267] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [274] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [281] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [288] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [295] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [302] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [309] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [316] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [323] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [330] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [337] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [344] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
+## [351] "numeric" "numeric"
+```
+
+Notice here that the mature miRNA names and the miRNA precursor names are considered factors (columns 1 and 3).
 ###2. Read in the config file, maintaining the characters in the 3-digit code names
 
 
@@ -261,28 +339,34 @@ Take a subset of this data.frame for testing:
 
 ```r
 test<-mirquant[1:20,1:8]
-head(test)
+
+test[1:10,]
 ```
 
 ```
-##           miRNA   001   002   003   004   005   006   007
-## 1    ssc-let-7a 48170 23457 28447 29899 40817 29774 38804
-## 2    ssc-let-7a 48095 23397 28448 29821 40698 29725 38794
-## 3    ssc-let-7c 32745 14987 18144 18681 34313 15294 28022
-## 4 ssc-let-7d-5p  4925  1938  2511  3076  3472  3276  3705
-## 5 ssc-let-7d-3p   381   192   198   269   778   239   774
-## 6    ssc-let-7e  2811  1302  1463  1690  2512  1410  2229
+##            miRNA   001   002   003   004   005   006   007
+## 1     ssc-let-7a 48170 23457 28447 29899 40817 29774 38804
+## 2     ssc-let-7a 48095 23397 28448 29821 40698 29725 38794
+## 3     ssc-let-7c 32745 14987 18144 18681 34313 15294 28022
+## 4  ssc-let-7d-5p  4925  1938  2511  3076  3472  3276  3705
+## 5  ssc-let-7d-3p   381   192   198   269   778   239   774
+## 6     ssc-let-7e  2811  1302  1463  1690  2512  1410  2229
+## 7     ssc-let-7f 35638 16475 20241 23079 16391 24685 19165
+## 8     ssc-let-7f 35227 16369 20082 22892 16634 24266 19185
+## 9     ssc-let-7g 16700  8010  9774 10902 11420 11251 12589
+## 10    ssc-let-7i 10966  4496  5306  6397  6161  5474  5958
 ```
 
 ###2. Use the 'by' function to apply the function colMeans to the entire data frame of read counts
 (What this will do is go down the columns looking at the index of grouped miRNA names and take the average of the read counts for that miRNA)
-The result of this will be a list containing the average read counts for each miRNA for each animal
+The result of this will be a list containing the average read counts for each miRNA for each animal.
 
 Example: by(data, index, function)
 
 
 ```r
-head(by(test[,2:ncol(test)], test[,1], colMeans))
+bytst<-by(test[,2:ncol(test)], test[,1], colMeans)
+bytst[1:25]
 ```
 
 ```
@@ -308,8 +392,77 @@ head(by(test[,2:ncol(test)], test[,1], colMeans))
 ## 
 ## $`ssc-let-7f`
 ##     001     002     003     004     005     006     007 
-## 35432.5 16422.0 20161.5 22985.5 16512.5 24475.5 19175.0
+## 35432.5 16422.0 20161.5 22985.5 16512.5 24475.5 19175.0 
+## 
+## $`ssc-let-7g`
+##   001   002   003   004   005   006   007 
+## 16700  8010  9774 10902 11420 11251 12589 
+## 
+## $`ssc-let-7i`
+##   001   002   003   004   005   006   007 
+## 10966  4496  5306  6397  6161  5474  5958 
+## 
+## $`ssc-miR-1`
+##    001    002    003    004    005    006    007 
+## 307458 228189 261470 283840 109839 282455 117277 
+## 
+## $`ssc-miR-100`
+##   001   002   003   004   005   006   007 
+##  9539  3194  3066  3069 17474  2405 12515 
+## 
+## $`ssc-miR-101`
+##     001     002     003     004     005     006     007 
+## 12024.0  7469.5  9833.0 10507.5  4269.0  5779.0  5073.5 
+## 
+## $`ssc-miR-103`
+##    001    002    003    004    005    006    007 
+## 2244.5 1182.0 1309.0 1822.5 1881.5 1044.0 1742.0 
+## 
+## $`ssc-miR-105-1`
+## 001 002 003 004 005 006 007 
+##   3   1   0   2   2   0   0 
+## 
+## $`ssc-miR-105-2`
+## 001 002 003 004 005 006 007 
+##   1   0   0   0   0   0   0 
+## 
+## $`ssc-miR-106a`
+## 001 002 003 004 005 006 007 
+##  39  17  26  45  27  25  22 
+## 
+## $`ssc-miR-107`
+## 001 002 003 004 005 006 007 
+## 460 213 256 313 357 136 282 
+## 
+## $`ssc-miR-10a-3p`
+## NULL
+## 
+## $`ssc-miR-10a-5p`
+## NULL
+## 
+## $`ssc-miR-10b`
+## NULL
+## 
+## $`ssc-miR-122`
+## NULL
+## 
+## $`ssc-miR-1224`
+## NULL
+## 
+## $`ssc-miR-1249`
+## NULL
+## 
+## $`ssc-miR-124a`
+## NULL
+## 
+## $`ssc-miR-125a`
+## NULL
+## 
+## $`ssc-miR-125b`
+## NULL
 ```
+
+Notice here that the rest of the miRNA names remain since the miRNA name is a factor, but since there is no data for them they are filled with NULL.
 
 Apply the by function to the full dataframe:
 
@@ -318,7 +471,7 @@ Apply the by function to the full dataframe:
 meanrc<-by(mirquant[,2:ncol(mirquant)], mirquant[,1], colMeans)
 ```
 
-This should be 411, the number of mature pig miRNAs in miRBase:
+This should be 411 (the number of mature pig miRNAs in miRBase), meaning we have one expression profile for each mature miRNA:
 
 
 ```r
@@ -563,46 +716,18 @@ dim(dfmeanrc)
 ```
 
 These dimensions are what would be expected, because there are 411 mature sus scrofa miRNA sequences in miRBase
-And there are 174 animals in the analysis, plus the miRNA column.
+and there are 174 animals in the analysis, plus the miRNA column.
 
 Check that the correct miRNA name went with the correct data:
 
 
 ```r
-sum(names(meanrc)==dfmeanrc[,1])
-```
+if (sum(names(meanrc)!=dfmeanrc[,1]) != 0) stop ("miRNA names are not the same")
 
-```
-## [1] 411
-```
-
-```r
-identical(names(meanrc), dfmeanrc[,1])
-```
-
-```
-## [1] TRUE
-```
-
-```r
 colnames(dfmeanrc)[[1]]<-"miRNA"
 
-sum(colnames(dfmeanrc)==colnames(mirquant))
-```
+if (sum(colnames(dfmeanrc)!=colnames(mirquant)) != 0) stop ("animal order not the same")
 
-```
-## [1] 175
-```
-
-```r
-sum(colnames(dfmeanrc)!=colnames(mirquant))
-```
-
-```
-## [1] 0
-```
-
-```r
 head(dfmeanrc[,1:10])
 ```
 
@@ -623,76 +748,18 @@ head(dfmeanrc[,1:10])
 ## 6 22094.5 22425.5
 ```
 
-Check that each position of the let-7a element of the list matches the let-7a row of the dataframe:
-
-
-```r
-sum((meanrc$'ssc-let-7a')-(dfmeanrc[1,2:ncol(dfmeanrc)]))
-```
-
-```
-## [1] 0
-```
-
-Check a second miRNA in the same way:
-
-
-```r
-sum((meanrc$'ssc-miR-369')-(dfmeanrc[206,2:ncol(dfmeanrc)]))
-```
-
-```
-## [1] 0
-```
-
-And a third miRNA in the same way:
-
-
-```r
-sum((meanrc$'ssc-miR-9')-(dfmeanrc[321,2:ncol(dfmeanrc)]))
-```
-
-```
-## [1] 0
-```
-
 ###4. Filter the data for expression threshold: The mean read count for the miRNA needs to be greater than the number of animals in the population
+First, a quick check that the rows didn't get switched around somehow:
 
 
 ```r
-rowSums(dfmeanrc[1:3,2:ncol(dfmeanrc)])
-```
+if (rowSums(dfmeanrc[1,2:ncol(dfmeanrc)]) != sum(dfmeanrc[1,2:ncol(dfmeanrc)])) stop ("rowsums not the same")
 
-```
-##       1       2       3 
-## 5061044 3238382   51589
-```
+if (rowSums(dfmeanrc[2,2:ncol(dfmeanrc)]) != sum(dfmeanrc[2,2:ncol(dfmeanrc)])) stop ("rowsums not the same")
 
-```r
-sum(dfmeanrc[1,2:ncol(dfmeanrc)])
-```
+if (rowSums(dfmeanrc[3,2:ncol(dfmeanrc)]) != sum(dfmeanrc[3,2:ncol(dfmeanrc)])) stop ("rowsums not the same")
 
-```
-## [1] 5061044
-```
 
-```r
-sum(dfmeanrc[2,2:ncol(dfmeanrc)])
-```
-
-```
-## [1] 3238382
-```
-
-```r
-sum(dfmeanrc[3,2:ncol(dfmeanrc)])
-```
-
-```
-## [1] 51589
-```
-
-```r
 sum(rowSums(dfmeanrc[,2:ncol(dfmeanrc)]) > 174)
 ```
 
@@ -728,14 +795,16 @@ Check that the column order did not switch in the merge:
 
 
 ```r
-sum(colnames(filtermeanrc) == colnames(dfmeanrc))
+if (sum(colnames(filtermeanrc) != colnames(dfmeanrc)) != 0) stop ("column order is not the same")
 ```
 
-```
-## [1] 175
+Make sure that the filtering step worked correctly (min should be > 174)
+
+
+```r
+if (min(rowSums(filtermeanrc[,2:ncol(filtermeanrc)])) < 174) stop ("min not equal to 174")
 ```
 
-All the column names match!
 
 Identify which rows contain 0s and which do not:
 
@@ -784,17 +853,6 @@ Notice that some miRNAs have multiple 0 read counts across animals, while some o
 
 How many miRNAs have 0s?
 
-
-```r
-sum(rowsums.zero!=0)
-```
-
-```
-## [1] 58
-```
-
-So, 58 miRNA profiles expressed greater than 174 times still contain zeros and need to be adjusted prior log-transformation via voom function.
-
 Create a logical vector containing true if a row contains a 0:
 
 
@@ -809,29 +867,18 @@ head(rowcontains.zeros.logical)
 ## FALSE FALSE FALSE FALSE FALSE FALSE
 ```
 
-
-
-
 ```r
-sum(rowcontains.zeros.logical==TRUE)
+table(rowcontains.zeros.logical)
 ```
 
 ```
-## [1] 58
+## rowcontains.zeros.logical
+## FALSE  TRUE 
+##   227    58
 ```
 
-58 miRNAs contain 0s.
+So, 58 miRNA profiles contain 0 read counts
 
-
-```r
-sum(rowcontains.zeros.logical!=TRUE)
-```
-
-```
-## [1] 227
-```
-
-227 miRNAs contain no 0s.
 ###5. Restore the pig IDs in place of the 3-digit codes as the column names of the data frame, for use with the gblup function of gwaR
 
 
@@ -849,41 +896,6 @@ head(configfile)
 ## 6  1060  006
 ```
 
-Check that the 3 miRNAs maintained the same positions in filtermeanrc versus dfmeanrc:
-
-ssc-let-7a:
-
-
-```r
-sum((filtermeanrc[1,2:ncol(filtermeanrc)])-(dfmeanrc[1,2:ncol(dfmeanrc)]))
-```
-
-```
-## [1] 0
-```
-
-ssc-miR-4332:
-
-
-```r
-sum((filtermeanrc[181,2:ncol(filtermeanrc)])-(dfmeanrc[203,2:ncol(dfmeanrc)]))
-```
-
-```
-## [1] 0
-```
-
-ssc-miR-99a:
-
-
-```r
-sum((filtermeanrc[284,2:ncol(filtermeanrc)])-(dfmeanrc[410,2:ncol(dfmeanrc)]))
-```
-
-```
-## [1] 0
-```
-
 Now I need to substitute the pid ids for the 3-digit code, ensuring the names stay in the correct order:
 
 filtermeanrc: matrix of average read counts filtered for expression > 174
@@ -899,14 +911,48 @@ Eliminate column of row names:
 
 
 ```r
-filtermeanrc$miRNA<-NULL
+filtermeanrc<-filtermeanrc[,-c(1)]
+head(filtermeanrc[,1:10])
 ```
 
-Use match function to find positional vector and match column names:
+```
+##                   001   002     003     004     005     006   007     008
+## ssc-let-7a    48132.5 23427 28447.5 29860.0 40757.5 29749.5 38799 31459.5
+## ssc-let-7c    32745.0 14987 18144.0 18681.0 34313.0 15294.0 28022 19512.0
+## ssc-let-7d-3p   381.0   192   198.0   269.0   778.0   239.0   774   355.0
+## ssc-let-7d-5p  4925.0  1938  2511.0  3076.0  3472.0  3276.0  3705  3301.0
+## ssc-let-7e     2811.0  1302  1463.0  1690.0  2512.0  1410.0  2229  1577.0
+## ssc-let-7f    35432.5 16422 20161.5 22985.5 16512.5 24475.5 19175 22094.5
+##                   009   010
+## ssc-let-7a    29857.0 21333
+## ssc-let-7c    16741.0 12522
+## ssc-let-7d-3p   243.0   166
+## ssc-let-7d-5p  3094.0  2068
+## ssc-let-7e     1523.0   993
+## ssc-let-7f    22425.5 16483
+```
+
+```r
+dim(filtermeanrc)
+```
+
+```
+## [1] 285 174
+```
+
+Use match function to find positional index and match column names:
+
+The object filtermeanrc has column names that need to be re-named. I have the config file which contains
+the current column names and the desired column names. What I am doing in this code is re-ordering the config file 
+based on where the config file "code" column matches the position of the filtermeanrc object's column names, then having it return the corresponding value in column "pigid". 
+
+So, when using match, need to have the first argument be the matrix/dataframe you want to change or match, and the second argument be what you want to index it by or match it against. 
+
+"Where does [vector] match in [matrix]?" or "Match the column names of filtermeanrc to the configfile "code" column."
 
 
 ```r
-configfile[match(configfile$code,colnames(filtermeanrc)),1]
+configfile[match(colnames(filtermeanrc),configfile$code),"pigid"]
 ```
 
 ```
@@ -934,7 +980,7 @@ Assign the column names using match:
 
 
 ```r
-colnames(filtermeanrc)<- configfile[match(configfile$code,colnames(filtermeanrc)),1]
+colnames(filtermeanrc)<- configfile[match(colnames(filtermeanrc),configfile$code),"pigid"]
 head(filtermeanrc[1:5])
 ```
 
@@ -946,41 +992,6 @@ head(filtermeanrc[1:5])
 ## ssc-let-7d-5p  4925.0  1938  2511.0  3076.0  3472.0
 ## ssc-let-7e     2811.0  1302  1463.0  1690.0  2512.0
 ## ssc-let-7f    35432.5 16422 20161.5 22985.5 16512.5
-```
-
-Do the same positional check for the three miRNAs:
-
-ssc-let-7a
-
-
-```r
-sum((filtermeanrc[1,])-(dfmeanrc[1,2:ncol(dfmeanrc)]))
-```
-
-```
-## [1] 0
-```
-
-ssc-miR-363
-
-
-```r
-sum((filtermeanrc[181,])-(dfmeanrc[203,2:ncol(dfmeanrc)]))
-```
-
-```
-## [1] 0
-```
-
-ssc-miR-99a
-
-
-```r
-sum((filtermeanrc[284,])-(dfmeanrc[410,2:ncol(dfmeanrc)]))
-```
-
-```
-## [1] 0
 ```
 
 ###6. Transpose the data.frame to make the animals take the rows and the miRNAs the columns
