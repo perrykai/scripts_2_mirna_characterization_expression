@@ -58,6 +58,20 @@ colnames(rc)
 #' View the data set:
 head(rc[1:8])
 
+#' Do a for loop to check the class of each column in the data.frame
+
+colclass<-NULL
+
+for (i in colnames(rc)) {
+   colclass<-c(colclass,class(rc[,i]))
+}
+
+table(colclass)
+colclass
+
+
+#' Notice here that the mature miRNA names and the miRNA precursor names are considered factors (columns 1 and 3).
+
 #' ###2. Read in the config file, maintaining the characters in the 3-digit code names
 configfile<-read.table("../../../1_preprocess_fastq_files/8_collapsed_fasta_output_expression_matrix/config_for_mapper.txt", header = FALSE, sep = " ", row.names=NULL, colClasses = c('character','character'))
 head(configfile)
@@ -79,21 +93,26 @@ dim(mirquant)
 
 head(mirquant[1:8])
 
+
 #' Take a subset of this data.frame for testing:
 test<-mirquant[1:20,1:8]
-head(test)
+
+test[1:10,]
 
 #' ###2. Use the 'by' function to apply the function colMeans to the entire data frame of read counts
 #' (What this will do is go down the columns looking at the index of grouped miRNA names and take the average of the read counts for that miRNA)
-#' The result of this will be a list containing the average read counts for each miRNA for each animal
+#' The result of this will be a list containing the average read counts for each miRNA for each animal.
 #' 
 #' Example: by(data, index, function)
-head(by(test[,2:ncol(test)], test[,1], colMeans))
+bytst<-by(test[,2:ncol(test)], test[,1], colMeans)
+bytst[1:25]
+#' Notice here that the rest of the miRNA names remain since the miRNA name is a factor, but since there is no data for them they are filled with NULL.
+#' 
 
 #' Apply the by function to the full dataframe:
 meanrc<-by(mirquant[,2:ncol(mirquant)], mirquant[,1], colMeans)
 
-#' This should be 411, the number of mature pig miRNAs in miRBase:
+#' This should be 411 (the number of mature pig miRNAs in miRBase), meaning we have one expression profile for each mature miRNA:
 length(meanrc)
 
 head(meanrc)
@@ -113,41 +132,26 @@ head(dfmeanrc[1:8])
 
 dim(dfmeanrc)
 #' These dimensions are what would be expected, because there are 411 mature sus scrofa miRNA sequences in miRBase
-#' And there are 174 animals in the analysis, plus the miRNA column.
+#' and there are 174 animals in the analysis, plus the miRNA column.
 
 #' 
 #' Check that the correct miRNA name went with the correct data:
-sum(names(meanrc)==dfmeanrc[,1])
-
-identical(names(meanrc), dfmeanrc[,1])
+if (sum(names(meanrc)!=dfmeanrc[,1]) != 0) stop ("miRNA names are not the same")
 
 colnames(dfmeanrc)[[1]]<-"miRNA"
 
-sum(colnames(dfmeanrc)==colnames(mirquant))
-
-sum(colnames(dfmeanrc)!=colnames(mirquant))
+if (sum(colnames(dfmeanrc)!=colnames(mirquant)) != 0) stop ("animal order not the same")
 
 head(dfmeanrc[,1:10])
 
-#' Check that each position of the let-7a element of the list matches the let-7a row of the dataframe:
-sum((meanrc$'ssc-let-7a')-(dfmeanrc[1,2:ncol(dfmeanrc)]))
-
-#' Check a second miRNA in the same way:
-sum((meanrc$'ssc-miR-369')-(dfmeanrc[206,2:ncol(dfmeanrc)]))
-
-#' And a third miRNA in the same way:
-sum((meanrc$'ssc-miR-9')-(dfmeanrc[321,2:ncol(dfmeanrc)]))
-
-
 #' ###4. Filter the data for expression threshold: The mean read count for the miRNA needs to be greater than the number of animals in the population
+#' First, a quick check that the rows didn't get switched around somehow:
+if (rowSums(dfmeanrc[1,2:ncol(dfmeanrc)]) != sum(dfmeanrc[1,2:ncol(dfmeanrc)])) stop ("rowsums not the same")
 
-rowSums(dfmeanrc[1:3,2:ncol(dfmeanrc)])
+if (rowSums(dfmeanrc[2,2:ncol(dfmeanrc)]) != sum(dfmeanrc[2,2:ncol(dfmeanrc)])) stop ("rowsums not the same")
 
-sum(dfmeanrc[1,2:ncol(dfmeanrc)])
+if (rowSums(dfmeanrc[3,2:ncol(dfmeanrc)]) != sum(dfmeanrc[3,2:ncol(dfmeanrc)])) stop ("rowsums not the same")
 
-sum(dfmeanrc[2,2:ncol(dfmeanrc)])
-
-sum(dfmeanrc[3,2:ncol(dfmeanrc)])
 
 sum(rowSums(dfmeanrc[,2:ncol(dfmeanrc)]) > 174)
 #' So, 285 miRNAs have expression greater than 174 (number of animals in population).
@@ -160,8 +164,10 @@ dim(filtermeanrc)
 filtermeanrc[1:10,1]
 
 #' Check that the column order did not switch in the merge:
-sum(colnames(filtermeanrc) == colnames(dfmeanrc))
-#' All the column names match!
+if (sum(colnames(filtermeanrc) != colnames(dfmeanrc)) != 0) stop ("column order is not the same")
+
+#' Make sure that the filtering step worked correctly (min should be > 174)
+if (min(rowSums(filtermeanrc[,2:ncol(filtermeanrc)])) < 174) stop ("min not equal to 174")
 
 #' 
 #' Identify which rows contain 0s and which do not:
@@ -171,39 +177,18 @@ rowsums.zero
 #' 
 
 #' How many miRNAs have 0s?
-sum(rowsums.zero!=0)
-#' So, 58 miRNA profiles expressed greater than 174 times still contain zeros and need to be adjusted prior log-transformation via voom function.
-
 #' 
 #' Create a logical vector containing true if a row contains a 0:
 rowcontains.zeros.logical<-rowsums.zero!=0
 
 head(rowcontains.zeros.logical)
 
+table(rowcontains.zeros.logical)
+#' So, 58 miRNA profiles contain 0 read counts
 #' 
-sum(rowcontains.zeros.logical==TRUE)
-#' 58 miRNAs contain 0s.
-
-sum(rowcontains.zeros.logical!=TRUE)
-#' 227 miRNAs contain no 0s.
-
-
 #' ###5. Restore the pig IDs in place of the 3-digit codes as the column names of the data frame, for use with the gblup function of gwaR
 
 head(configfile)
-
-#' Check that the 3 miRNAs maintained the same positions in filtermeanrc versus dfmeanrc:
-
-#' 
-#' ssc-let-7a:
-sum((filtermeanrc[1,2:ncol(filtermeanrc)])-(dfmeanrc[1,2:ncol(dfmeanrc)]))
-
-#' ssc-miR-4332:
-sum((filtermeanrc[181,2:ncol(filtermeanrc)])-(dfmeanrc[203,2:ncol(dfmeanrc)]))
-
-#' ssc-miR-99a:
-sum((filtermeanrc[284,2:ncol(filtermeanrc)])-(dfmeanrc[410,2:ncol(dfmeanrc)]))
-
 
 #' Now I need to substitute the pid ids for the 3-digit code, ensuring the names stay in the correct order:
 #' 
@@ -213,26 +198,25 @@ sum((filtermeanrc[284,2:ncol(filtermeanrc)])-(dfmeanrc[410,2:ncol(dfmeanrc)]))
 rownames(filtermeanrc)<-filtermeanrc$miRNA
 
 #' Eliminate column of row names:
-filtermeanrc$miRNA<-NULL
+filtermeanrc<-filtermeanrc[,-c(1)]
+head(filtermeanrc[,1:10])
+dim(filtermeanrc)
 
-#' Use match function to find positional vector and match column names:
-configfile[match(configfile$code,colnames(filtermeanrc)),1]
+
+#' Use match function to find positional index and match column names:
+#' 
+#' The object filtermeanrc has column names that need to be re-named. I have the config file which contains
+#' the current column names and the desired column names. What I am doing in this code is re-ordering the config file 
+#' based on where the config file "code" column matches the position of the filtermeanrc object's column names, then having it return the corresponding value in column "pigid". 
+#' 
+#' So, when using match, need to have the first argument be the matrix/dataframe you want to change or match, and the second argument be what you want to index it by or match it against. 
+#' 
+#' "Where does [vector] match in [matrix]?" or "Match the column names of filtermeanrc to the configfile "code" column."
+configfile[match(colnames(filtermeanrc),configfile$code),"pigid"]
 
 #' Assign the column names using match:
-colnames(filtermeanrc)<- configfile[match(configfile$code,colnames(filtermeanrc)),1]
+colnames(filtermeanrc)<- configfile[match(colnames(filtermeanrc),configfile$code),"pigid"]
 head(filtermeanrc[1:5])
-
-
-#' Do the same positional check for the three miRNAs:
-#' 
-#' ssc-let-7a
-sum((filtermeanrc[1,])-(dfmeanrc[1,2:ncol(dfmeanrc)]))
-
-#' ssc-miR-363
-sum((filtermeanrc[181,])-(dfmeanrc[203,2:ncol(dfmeanrc)]))
-
-#' ssc-miR-99a
-sum((filtermeanrc[284,])-(dfmeanrc[410,2:ncol(dfmeanrc)]))
 
 
 #' ###6. Transpose the data.frame to make the animals take the rows and the miRNAs the columns
