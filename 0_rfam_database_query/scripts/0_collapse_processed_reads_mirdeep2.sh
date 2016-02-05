@@ -18,7 +18,7 @@
 #      using the cmscan command of the Infernal software. To decrease computation time, the reads processed by the miRDeep2 module 
 #      will be collapsed into unique sequences with total read counts using the miRDeep2 mapper module -m option.
 #      Additionally, the "toponly" option of the cmscan command will be used. 
-#      This script accomplishes the collapsing of the small RNA seq reads.
+#      This script accomplishes the collapsing of the small RNA seq reads, then splits the file into 54 equal parts for parallel processing.
 
 #  2. [Modules Used]
 #     miRDeep2/0.0.5
@@ -43,5 +43,8 @@ cd /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0
 # -m collapses the reads
 # -s writes the output file to the designated file
 mapper.pl ../../1_preprocess_fastq_files/9_mirdeep2_genome_mapper_output/174_library_reads_processed.fa -c -m -s 174_library_collapsed_reads.fa
+
+# Split the files so each one has 253578 lines, meaning each file has 126789 sequences and can run efficiently through Infernal
+split -d -l 253578 174_library_collapsed_reads.fa ./split_174_library_collapsed_files/174_split_collapsed_reads_ 
 
 qstat -f ${PBS_JOBID}
