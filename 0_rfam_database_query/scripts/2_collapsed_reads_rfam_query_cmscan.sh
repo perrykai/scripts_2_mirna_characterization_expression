@@ -1,17 +1,17 @@
-# Script: 1_collapse_processed_reads_run_cmscan.sh
+# Script: 2_collapsed_reads_rfam_query_cmscan.sh
 
 # Directory of Code: /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts
 
-# Date:  2/01/2016
+# Date:  2/05/2016
 
 # Input File Directory: /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/
 
-# Input File(s): 174_library_collapsed_reads.fa
+# Input File(s): 174_split_collapsed_reads_* (54 files in total)
  
-# Output File Directory: /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/
+# Output File Directory: /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/infernal_rfam_query_output
 
-# Output File(s): 174_collapsed_libraries_cmscan_tblout.txt
-#                 174_collapsed_libraries_cmscan_output.txt
+# Output File(s): 174_split_collapsed_reads_*_tblout.txt
+#                 174_split_collapsed_reads_*_output.txt
 
 #  1. [Objectives]
 #      The objective of this analysis is to identify the different species of small RNA present in the small RNA seq dataset.
@@ -25,19 +25,26 @@
 
 # ===============================
 
-#!/bin/sh  -login
-#PBS -l nodes=1:ppn=5:intel14,walltime=3:00:00,mem=5Gb
-#PBS -N 5cpu_174_collapsed_libraries_rfam_cmscan
-#PBS -j oe
-#PBS -o /mnt/research/pigeqtl/analyses/microRNA/OutputsErrors/
-#PBS -m abe
-#PBS -M perrykai@msu.edu
+f1=(`ls /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/split_174_library_collapsed_files/`)
 
-module load Infernal/1.1rc1
+cd /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts/
 
-cd /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/
+for (( i = 0 ; i < ${#f1[@]} ; i++ )) do
+	echo '#!/bin/sh  -login' > base.sh
+	echo '#PBS -l nodes=2:ppn=8:intel14,walltime=6:00:00,mem=5Gb' >> base.sh
+	echo '#PBS -N '${f1[$i]}'_rfamscan' >> base.sh
+	echo '#PBS -j oe' >> base.sh
+	echo '#PBS -o /mnt/research/pigeqtl/analyses/microRNA/OutputsErrors/' >> base.sh
+	echo '#PBS -m a' >> base.sh
+	echo '#PBS -M perrykai@msu.edu' >> base.sh
 
-# Query the small RNA sequencing data using cmscan command of infernal, using 5 cpus and the --toponly option. 
-cmscan --tblout 174_collapsed_libraries_cmscan_tblout.txt --cpu 5 --toponly -o 174_collapsed_libraries_cmscan_output.txt Rfam.cm 174_library_collapsed_reads.fa
+	echo 'module load infernal/1.1rc1' >> base.sh
 
-qstat -f ${PBS_JOBID}
+	# Query the small RNA sequencing data using cmscan command of infernal, using 5 cpus and the --toponly option. 
+	echo 'cmscan --tblout /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/infernal_rfam_query_output/'${f1[$i]}'_tblout.txt --cpu 16 --toponly -o /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/infernal_rfam_query_output/'${f1[$i]}'_output.txt /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/Rfam.cm /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/split_174_library_collapsed_files/'${f1[$i]} >> base.sh
+
+	echo 'qstat -f ${PBS_JOBID}' >> base.sh
+
+	qsub base.sh
+
+done
