@@ -153,22 +153,6 @@ if (rowSums(dfmeanrc[2,2:ncol(dfmeanrc)]) != sum(dfmeanrc[2,2:ncol(dfmeanrc)])) 
 if (rowSums(dfmeanrc[3,2:ncol(dfmeanrc)]) != sum(dfmeanrc[3,2:ncol(dfmeanrc)])) stop ("rowsums not the same")
 
 
-sum(rowSums(dfmeanrc[,2:ncol(dfmeanrc)]) > 174)
-#' So, 285 miRNAs have expression greater than 174 (number of animals in population).
-
-#' 
-#' Create a subset of the large dataframe containing only the miRNAs expressed > 174 times:
-filtermeanrc<-dfmeanrc[which(rowSums(dfmeanrc[,2:ncol(dfmeanrc)]) > 174),]
-dim(filtermeanrc)
-
-filtermeanrc[1:10,1]
-
-#' Check that the column order did not switch in the merge:
-if (sum(colnames(filtermeanrc) != colnames(dfmeanrc)) != 0) stop ("column order is not the same")
-
-#' Make sure that the filtering step worked correctly (min should be > 174)
-if (min(rowSums(filtermeanrc[,2:ncol(filtermeanrc)])) < 174) stop ("min not equal to 174")
-
 #' 
 #' Identify which rows contain 0s and which do not:
 rowsums.zero<-rowSums(filtermeanrc[,2:ncol(filtermeanrc)]==0)
