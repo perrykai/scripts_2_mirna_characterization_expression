@@ -116,7 +116,7 @@ head(meanrc)
 #' Example: ldply(.data, .fun, .id)
 #' 
 #' id = name of the index column (used if data is a named list). Pass NULL to avoid creation
-#'      of the index column. For compatibility, omit this argument or pass NA to avoid converting the index column
+#'      of the index column. For compatibility, omit this argument or pass "NA" to avoid converting the index column
 #'      to a factor; in this case, ".id" is used as column name.
 
 dfmeanrc<-ldply(meanrc, fun=NULL, id=names(meanrc))
