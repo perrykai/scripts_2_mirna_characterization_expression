@@ -124,7 +124,7 @@ dfmeanrc<-ldply(meanrc, fun=NULL, id=names(meanrc))
 head(dfmeanrc[1:8])
 
 dim(dfmeanrc)
-#' These dimensions are what would be expected, because there are 411 mature sus scrofa miRNA sequences in miRBase
+#' These dimensions are what would be expected, because there are 411 mature sus scrofa miRNA sequences in miRBase,
 #' and there are 174 animals in the analysis, plus the miRNA column.
 
 #' 
