@@ -2,7 +2,7 @@
 #' 
 #' **Directory of Code:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/2_create_expression_matrix_of_known_mirna/scripts`
 #' 
-#' **Date:**  1/26/16
+#' **Date:**  1/26/16 #UPDATE 2/8/16
 #' 
 #' **Input File Directory:**  `/mnt/research/pigeqtl/analyses/microRNA/1_preprocess_fastq_files/10_mirdeep2_core_quantify_predict_output`
 #' 
@@ -10,13 +10,7 @@
 #' 
 #' **Output File Directory:** `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/2_create_expression_matrix_of_known_mirna`
 #' 
-#' **Output File(s):** `1_mean_mature_mirna_expression_unfiltered.txt`
-#' 
-#'                     `1_mean_mature_mirna_expression_unfiltered.Rdata`
-#' 
-#'                     `2_mean_mature_mirna_expression_filtered.txt`
-#' 
-#'                     `2_mean_mature_mirna_expression_filtered.Rdata`
+#' **Output File(s):** `1_exp_filtered_mean_mature_mirna_expression.Rdata`
 #' 
 #' **Table of contents:**
 #'
@@ -40,7 +34,6 @@
 #' 3. Transform the list output back into a data.frame using the plyr package to prepare for gblup function
 #' 4. Filter the data for expression threshold: The read count for the miRNA needs to be greater than the number of animals in the population
 #' 5. Restore the pig IDs in place of the 3-digit codes as the column names of the data frame, for use with the gblup function of gwaR
-#' 6. Transpose the data.frame to make the animals the rows and the miRNAs the columns
 #' 
 
 #' ## Install libraries
@@ -67,7 +60,7 @@ for (i in colnames(rc)) {
 }
 
 table(colclass)
-colclass
+head(colclass)
 
 
 #' Notice here that the mature miRNA names and the miRNA precursor names are considered factors (columns 1 and 3).
@@ -145,82 +138,63 @@ if (sum(colnames(dfmeanrc)!=colnames(mirquant)) != 0) stop ("animal order not th
 head(dfmeanrc[,1:10])
 
 #' ###4. Filter the data for expression threshold: The mean read count for the miRNA needs to be greater than the number of animals in the population
-#' First, a quick check that the rows didn't get switched around somehow:
-if (rowSums(dfmeanrc[1,2:ncol(dfmeanrc)]) != sum(dfmeanrc[1,2:ncol(dfmeanrc)])) stop ("rowsums not the same")
+#' 
+#' Set first column of dfmeanrc (miRNA ids) as the row.names:
+rownames(dfmeanrc)<-dfmeanrc$miRNA
 
-if (rowSums(dfmeanrc[2,2:ncol(dfmeanrc)]) != sum(dfmeanrc[2,2:ncol(dfmeanrc)])) stop ("rowsums not the same")
-
-if (rowSums(dfmeanrc[3,2:ncol(dfmeanrc)]) != sum(dfmeanrc[3,2:ncol(dfmeanrc)])) stop ("rowsums not the same")
-
+#' Eliminate column of row names:
+dfmeanrc<-dfmeanrc[,-c(1)]
+head(dfmeanrc[,1:10])
+dim(dfmeanrc)
 
 #' 
-#' Identify which rows contain 0s and which do not:
-rowsums.zero<-rowSums(filtermeanrc[,2:ncol(filtermeanrc)]==0)
-rowsums.zero
-#' Notice that some miRNAs have multiple 0 read counts across animals, while some only have one or two 0 read counts.
-#' 
+#' How many miRNAs are not expressed (total read count across all libraries = 0)?
+head(rowSums(dfmeanrc))
+tail(rowSums(dfmeanrc))
+table(rowSums(dfmeanrc)==0)
 
-#' How many miRNAs have 0s?
+#' So, 76 miRNA profiles contain 0 read counts total, meaning 0 expression
 #' 
-#' Create a logical vector containing true if a row contains a 0:
-rowcontains.zeros.logical<-rowsums.zero!=0
+#' Filter the matrix to keep only those miRNAs whose total expression is greater than 0. 
+no.zero.dfmeanrc<-dfmeanrc[rowSums(dfmeanrc)>0,]
+dim(no.zero.dfmeanrc)
+head(no.zero.dfmeanrc[,1:10])
 
-head(rowcontains.zeros.logical)
+if (sum(rowSums(no.zero.dfmeanrc)==0)!= 0) stop ("expression filtering did not work correctly")
 
-table(rowcontains.zeros.logical)
-#' So, 58 miRNA profiles contain 0 read counts
-#' 
+if (sum(colnames(no.zero.dfmeanrc)!=colnames(dfmeanrc)) != 0) stop ("animal order not the same")
+
 #' ###5. Restore the pig IDs in place of the 3-digit codes as the column names of the data frame, for use with the gblup function of gwaR
 
 head(configfile)
 
-#' Now I need to substitute the pid ids for the 3-digit code, ensuring the names stay in the correct order:
+#' Now I need to substitute the 3-digit code with the pig IDs, ensuring the names stay in the correct order:
 #' 
-#' filtermeanrc: matrix of average read counts filtered for expression > 174
-#' 
-#' Set first column of filtermeanrc (miRNA ids) as the row.names:
-rownames(filtermeanrc)<-filtermeanrc$miRNA
-
-#' Eliminate column of row names:
-filtermeanrc<-filtermeanrc[,-c(1)]
-head(filtermeanrc[,1:10])
-dim(filtermeanrc)
-
-
 #' Use match function to find positional index and match column names:
 #' 
-#' The object filtermeanrc has column names that need to be re-named. I have the config file which contains
+#' The object dfmeanrc has column names that need to be re-named. I have the config file which contains
 #' the current column names and the desired column names. What I am doing in this code is re-ordering the config file 
-#' based on where the config file "code" column matches the position of the filtermeanrc object's column names, then having it return the corresponding value in column "pigid". 
+#' based on where the config file "code" column matches the position of the dfmeanrc object's column names, then having it return the corresponding value in column "pigid". 
 #' 
 #' So, when using match, need to have the first argument be the matrix/dataframe you want to change or match, and the second argument be what you want to index it by or match it against. 
 #' 
-#' "Where does [vector] match in [matrix]?" or "Match the column names of filtermeanrc to the configfile "code" column."
-configfile[match(colnames(filtermeanrc),configfile$code),"pigid"]
+#' "Where does [vector] match in [matrix]?" or "Match the column names of no.zero.dfmeanrc to the configfile "code" column, then return the corresponding pigid."
+configfile[match(colnames(no.zero.dfmeanrc),configfile$code),"pigid"]
 
 #' Assign the column names using match:
-colnames(filtermeanrc)<- configfile[match(colnames(filtermeanrc),configfile$code),"pigid"]
-head(filtermeanrc[1:5])
+colnames(no.zero.dfmeanrc)<- configfile[match(colnames(no.zero.dfmeanrc),configfile$code),"pigid"]
+head(no.zero.dfmeanrc[1:10])
+dim(no.zero.dfmeanrc)
 
+if (sum(colnames(no.zero.dfmeanrc)!=(configfile$pigid))!=0) stop ("match function did not work correctly")
 
-#' ###6. Transpose the data.frame to make the animals take the rows and the miRNAs the columns
-transposefiltermeanrc<-t(filtermeanrc)
+#' The final matrix of filtered mean read counts needs to have miRNA rownames and Animal ID colnames
+head(rownames(no.zero.dfmeanrc))
 
-dim(transposefiltermeanrc)
+head(colnames(no.zero.dfmeanrc))
 
-head(transposefiltermeanrc[,1:5])
-
-is.numeric(transposefiltermeanrc)
 
 #' ## Save data
-#' What I am saving here is the unfiltered average read counts in one data.frame, and the filtered, transposed average read counts as another data.frame.
-#'
-
-#' ###1. Save the unfiltered average read counts as a data.frame and an Rdata object
-write.table(dfmeanrc, file = "../1_mean_mature_mirna_expression_unfiltered.txt", quote = FALSE, sep = "\t", col.names = TRUE)
-save(dfmeanrc, file = "../1_mean_mature_mirna_expression_unfiltered.Rdata")
-
-#' ###2. Save the filtered, transposed average read counts as a data.frame and an Rdata object
-write.table(transposefiltermeanrc, file = "../2_mean_mature_mirna_expression_filtered.txt", quote = FALSE, sep = "\t ", col.names = TRUE)
-save(transposefiltermeanrc, file = "../2_mean_mature_mirna_expression_filtered.Rdata")
+#' What I am saving here is the filtered average read counts in an .Rdata object
+save(no.zero.dfmeanrc, file = "../1_exp_filtered_mean_mature_mirna_expression.Rdata")
 
