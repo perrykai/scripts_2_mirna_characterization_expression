@@ -2,7 +2,7 @@
 
 **Directory of Code:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/2_create_expression_matrix_of_known_mirna/scripts`
 
-**Date:**  1/26/16
+**Date:**  1/26/16 #UPDATE 2/8/16
 
 **Input File Directory:**  `/mnt/research/pigeqtl/analyses/microRNA/1_preprocess_fastq_files/10_mirdeep2_core_quantify_predict_output`
 
@@ -10,13 +10,7 @@
 
 **Output File Directory:** `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/2_create_expression_matrix_of_known_mirna`
 
-**Output File(s):** `1_mean_mature_mirna_expression_unfiltered.txt`
-
-                    `1_mean_mature_mirna_expression_unfiltered.Rdata`
-
-                    `2_mean_mature_mirna_expression_filtered.txt`
-
-                    `2_mean_mature_mirna_expression_filtered.Rdata`
+**Output File(s):** `1_exp_filtered_mean_mature_mirna_expression.Rdata`
 
 **Table of contents:**
 
@@ -40,7 +34,6 @@ So, what I need to do:
 3. Transform the list output back into a data.frame using the plyr package to prepare for gblup function
 4. Filter the data for expression threshold: The read count for the miRNA needs to be greater than the number of animals in the population
 5. Restore the pig IDs in place of the 3-digit codes as the column names of the data frame, for use with the gblup function of gwaR
-6. Transpose the data.frame to make the animals the rows and the miRNAs the columns
 
 ## Install libraries
 
@@ -183,61 +176,11 @@ table(colclass)
 ```
 
 ```r
-colclass
+head(colclass)
 ```
 
 ```
-##   [1] "factor"  "numeric" "factor"  "numeric" "numeric" "numeric" "numeric"
-##   [8] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-##  [15] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-##  [22] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-##  [29] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-##  [36] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-##  [43] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-##  [50] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-##  [57] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-##  [64] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-##  [71] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-##  [78] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-##  [85] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-##  [92] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-##  [99] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [106] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [113] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [120] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [127] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [134] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [141] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [148] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [155] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [162] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [169] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [176] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [183] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [190] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [197] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [204] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [211] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [218] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [225] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [232] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [239] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [246] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [253] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [260] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [267] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [274] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [281] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [288] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [295] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [302] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [309] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [316] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [323] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [330] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [337] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [344] "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric"
-## [351] "numeric" "numeric"
+## [1] "factor"  "numeric" "factor"  "numeric" "numeric" "numeric"
 ```
 
 Notice here that the mature miRNA names and the miRNA precursor names are considered factors (columns 1 and 3).
@@ -357,7 +300,7 @@ test[1:10,]
 ## 10    ssc-let-7i 10966  4496  5306  6397  6161  5474  5958
 ```
 
-###2. Use the 'by' function to apply the function colMeans to the entire data frame of read counts
+###2. Use the 'by' function to apply the function colMeans to the entire data frame of read counts:
 (What this will do is go down the columns looking at the index of grouped miRNA names and take the average of the read counts for that miRNA)
 The result of this will be a list containing the average read counts for each miRNA for each animal.
 
@@ -683,11 +626,11 @@ head(meanrc)
 ```
 
 
-###3. Transform the list output back into a data.frame using the plyr package to prepare for gblup function
+###3. Transform the list output back into a data.frame using the plyr package to prepare for gblup function:
 Example: ldply(.data, .fun, .id)
 
 id = name of the index column (used if data is a named list). Pass NULL to avoid creation
-     of the index column. For compatibility, omit this argument or pass NA to avoid converting the index column
+     of the index column. For compatibility, omit this argument or pass "NA" to avoid converting the index column
      to a factor; in this case, ".id" is used as column name.
 
 
@@ -715,7 +658,7 @@ dim(dfmeanrc)
 ## [1] 411 175
 ```
 
-These dimensions are what would be expected, because there are 411 mature sus scrofa miRNA sequences in miRBase
+These dimensions are what would be expected, because there are 411 mature sus scrofa miRNA sequences in miRBase,
 and there are 174 animals in the analysis, plus the miRNA column.
 
 Check that the correct miRNA name went with the correct data:
@@ -749,170 +692,20 @@ head(dfmeanrc[,1:10])
 ```
 
 ###4. Filter the data for expression threshold: The mean read count for the miRNA needs to be greater than the number of animals in the population
-First, a quick check that the rows didn't get switched around somehow:
+
+Set first column of dfmeanrc (miRNA ids) as the row.names:
 
 
 ```r
-if (rowSums(dfmeanrc[1,2:ncol(dfmeanrc)]) != sum(dfmeanrc[1,2:ncol(dfmeanrc)])) stop ("rowsums not the same")
-
-if (rowSums(dfmeanrc[2,2:ncol(dfmeanrc)]) != sum(dfmeanrc[2,2:ncol(dfmeanrc)])) stop ("rowsums not the same")
-
-if (rowSums(dfmeanrc[3,2:ncol(dfmeanrc)]) != sum(dfmeanrc[3,2:ncol(dfmeanrc)])) stop ("rowsums not the same")
-
-
-sum(rowSums(dfmeanrc[,2:ncol(dfmeanrc)]) > 174)
-```
-
-```
-## [1] 285
-```
-
-So, 285 miRNAs have expression greater than 174 (number of animals in population).
-
-Create a subset of the large dataframe containing only the miRNAs expressed > 174 times:
-
-
-```r
-filtermeanrc<-dfmeanrc[which(rowSums(dfmeanrc[,2:ncol(dfmeanrc)]) > 174),]
-dim(filtermeanrc)
-```
-
-```
-## [1] 285 175
-```
-
-```r
-filtermeanrc[1:10,1]
-```
-
-```
-##  [1] "ssc-let-7a"    "ssc-let-7c"    "ssc-let-7d-3p" "ssc-let-7d-5p"
-##  [5] "ssc-let-7e"    "ssc-let-7f"    "ssc-let-7g"    "ssc-let-7i"   
-##  [9] "ssc-miR-1"     "ssc-miR-100"
-```
-
-Check that the column order did not switch in the merge:
-
-
-```r
-if (sum(colnames(filtermeanrc) != colnames(dfmeanrc)) != 0) stop ("column order is not the same")
-```
-
-Make sure that the filtering step worked correctly (min should be > 174)
-
-
-```r
-if (min(rowSums(filtermeanrc[,2:ncol(filtermeanrc)])) < 174) stop ("min not equal to 174")
-```
-
-
-Identify which rows contain 0s and which do not:
-
-
-```r
-rowsums.zero<-rowSums(filtermeanrc[,2:ncol(filtermeanrc)]==0)
-rowsums.zero
-```
-
-```
-##   1   2   3   4   5   6   7   8   9  10  11  12  15  16  17  18  19  20 
-##   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0   0 
-##  22  24  25  26  27  28  29  30  31  32  34  35  36  37  38  39  40  41 
-##   0   0   0   0   0   0   2   7   0   0   0  32   3   3   0   0   0   0 
-##  42  43  44  45  46  47  48  49  51  52  53  54  55  56  57  58  59  60 
-##   0   0   0   0   0   0  27   1  23   4   0   0   0   0   0   0   0   0 
-##  61  62  63  65  66  67  68  69  70  71  72  73  74  75  76  78  79  80 
-##   0   0   0   0   0   0   0   0   0   0   0   0   0   0  82   0   0   0 
-##  81  82  83  84  85  86  88  89  90  92  93  94  95  97  98  99 100 101 
-##   0   0   0   0   0   0   0   0  27  18   3   0   0   0   3   0   1   0 
-## 102 103 104 105 108 109 110 111 112 113 114 115 116 117 119 120 121 122 
-##   0   0   0   0   0   0   5   0   0   0   0   0   1   0   5   0   5   0 
-## 123 124 125 126 127 128 129 132 133 135 136 139 140 141 142 144 145 146 
-##   0   0   0   0   0  75   0  52   0   0   0   0  23   0   0   0   0   0 
-## 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 
-##  57   0   0  60   0   0   0   3   0   0   0   0   0   0   0   0   0   0 
-## 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 
-##   0   0   0   0   0   2   0   0   1   0   0   0   0  51   0   0   0   0 
-## 184 185 186 187 188 189 190 191 192 193 194 195 196 197 199 200 201 202 
-##   0   0   0   0   0   0   0   2   0   0   0   0   0   0   0   0   0   0 
-## 203 204 206 207 209 210 211 212 213 214 216 217 218 219 220 222 223 225 
-##   0   0   0   0   0   0   1   0   0   1   2   0   0  10   0   0   0   0 
-## 226 227 228 229 230 231 233 234 235 236 242 243 244 245 246 247 248 249 
-##   0   0   0   0   0  75   0  30   0   0   0   0   0   0   0   0  13   0 
-## 250 252 253 254 255 256 258 259 260 262 263 264 265 266 267 268 269 270 
-##   0   0  46   0  20  20   0   0   0   0   0   0   0   0   0   0   0   0 
-## 271 272 273 274 276 277 278 279 280 281 282 283 284 285 287 288 289 290 
-##   0   0   0   0   0   0  10   0  23   0   0   8   0   0   0   0   1   0 
-## 291 292 293 294 297 298 300 302 307 313 314 315 316 318 319 320 321 322 
-##   0   0   7  68   6   0  53  71   0   0   0   0   0   0   0   0   1   1 
-## 323 324 325 327 328 329 331 346 357 388 390 398 407 410 411 
-##   1   0   0   0   0  57  44   0  37   1   0   6   4   0   0
-```
-
-Notice that some miRNAs have multiple 0 read counts across animals, while some only have one or two 0 read counts.
-
-How many miRNAs have 0s?
-
-Create a logical vector containing true if a row contains a 0:
-
-
-```r
-rowcontains.zeros.logical<-rowsums.zero!=0
-
-head(rowcontains.zeros.logical)
-```
-
-```
-##     1     2     3     4     5     6 
-## FALSE FALSE FALSE FALSE FALSE FALSE
-```
-
-```r
-table(rowcontains.zeros.logical)
-```
-
-```
-## rowcontains.zeros.logical
-## FALSE  TRUE 
-##   227    58
-```
-
-So, 58 miRNA profiles contain 0 read counts
-
-###5. Restore the pig IDs in place of the 3-digit codes as the column names of the data frame, for use with the gblup function of gwaR
-
-
-```r
-head(configfile)
-```
-
-```
-##   pigid code
-## 1  1034  001
-## 2  1036  002
-## 3  1041  003
-## 4  1049  004
-## 5  1058  005
-## 6  1060  006
-```
-
-Now I need to substitute the pid ids for the 3-digit code, ensuring the names stay in the correct order:
-
-filtermeanrc: matrix of average read counts filtered for expression > 174
-
-Set first column of filtermeanrc (miRNA ids) as the row.names:
-
-
-```r
-rownames(filtermeanrc)<-filtermeanrc$miRNA
+rownames(dfmeanrc)<-dfmeanrc$miRNA
 ```
 
 Eliminate column of row names:
 
 
 ```r
-filtermeanrc<-filtermeanrc[,-c(1)]
-head(filtermeanrc[,1:10])
+dfmeanrc<-dfmeanrc[,-c(1)]
+head(dfmeanrc[,1:10])
 ```
 
 ```
@@ -933,26 +726,122 @@ head(filtermeanrc[,1:10])
 ```
 
 ```r
-dim(filtermeanrc)
+dim(dfmeanrc)
 ```
 
 ```
-## [1] 285 174
+## [1] 411 174
 ```
 
-Use match function to find positional index and match column names:
 
-The object filtermeanrc has column names that need to be re-named. I have the config file which contains
-the current column names and the desired column names. What I am doing in this code is re-ordering the config file 
-based on where the config file "code" column matches the position of the filtermeanrc object's column names, then having it return the corresponding value in column "pigid". 
-
-So, when using match, need to have the first argument be the matrix/dataframe you want to change or match, and the second argument be what you want to index it by or match it against. 
-
-"Where does [vector] match in [matrix]?" or "Match the column names of filtermeanrc to the configfile "code" column."
+How many miRNAs are not expressed (total read count across all libraries = 0)?
 
 
 ```r
-configfile[match(colnames(filtermeanrc),configfile$code),"pigid"]
+head(rowSums(dfmeanrc))
+```
+
+```
+##    ssc-let-7a    ssc-let-7c ssc-let-7d-3p ssc-let-7d-5p    ssc-let-7e 
+##       5061044       3238382         51589        490052        274145 
+##    ssc-let-7f 
+##       3692619
+```
+
+```r
+tail(rowSums(dfmeanrc))
+```
+
+```
+## ssc-miR-9859-3p ssc-miR-9860-5p ssc-miR-9861-5p ssc-miR-9862-3p 
+##               0             946               0               0 
+##     ssc-miR-99a     ssc-miR-99b 
+##          913758          251989
+```
+
+```r
+table(rowSums(dfmeanrc)==0)
+```
+
+```
+## 
+## FALSE  TRUE 
+##   335    76
+```
+
+So, 76 miRNA profiles contain 0 read counts total, meaning 0 expression
+
+Filter the matrix to keep only those miRNAs whose total expression is greater than 0. 
+
+
+```r
+no.zero.dfmeanrc<-dfmeanrc[rowSums(dfmeanrc)>0,]
+dim(no.zero.dfmeanrc)
+```
+
+```
+## [1] 335 174
+```
+
+```r
+head(no.zero.dfmeanrc[,1:10])
+```
+
+```
+##                   001   002     003     004     005     006   007     008
+## ssc-let-7a    48132.5 23427 28447.5 29860.0 40757.5 29749.5 38799 31459.5
+## ssc-let-7c    32745.0 14987 18144.0 18681.0 34313.0 15294.0 28022 19512.0
+## ssc-let-7d-3p   381.0   192   198.0   269.0   778.0   239.0   774   355.0
+## ssc-let-7d-5p  4925.0  1938  2511.0  3076.0  3472.0  3276.0  3705  3301.0
+## ssc-let-7e     2811.0  1302  1463.0  1690.0  2512.0  1410.0  2229  1577.0
+## ssc-let-7f    35432.5 16422 20161.5 22985.5 16512.5 24475.5 19175 22094.5
+##                   009   010
+## ssc-let-7a    29857.0 21333
+## ssc-let-7c    16741.0 12522
+## ssc-let-7d-3p   243.0   166
+## ssc-let-7d-5p  3094.0  2068
+## ssc-let-7e     1523.0   993
+## ssc-let-7f    22425.5 16483
+```
+
+```r
+if (sum(rowSums(no.zero.dfmeanrc)==0)!= 0) stop ("expression filtering did not work correctly")
+
+if (sum(colnames(no.zero.dfmeanrc)!=colnames(dfmeanrc)) != 0) stop ("animal order not the same")
+```
+
+###5. Restore the pig IDs in place of the 3-digit codes as the column names of the data frame, for use with the gblup function of gwaR
+
+
+```r
+head(configfile)
+```
+
+```
+##   pigid code
+## 1  1034  001
+## 2  1036  002
+## 3  1041  003
+## 4  1049  004
+## 5  1058  005
+## 6  1060  006
+```
+
+Now I need to substitute the 3-digit code with the pig IDs, ensuring the names stay in the correct order:
+
+Use match function to find positional index and match column names:
+
+The object dfmeanrc has column names that need to be re-named. I have the config file which contains
+the current column names and the desired column names. What I am doing in this code is re-ordering the config file 
+based on where the config file "code" column matches the position of the dfmeanrc object's column names, then having it return the corresponding value in column "pigid". 
+
+So, when using match, need to have the first argument be the matrix/dataframe you want to change or match, and the second argument be what you want to index it by or match it against. 
+
+"Where does [vector] match in [matrix]?" or "Match the column names of no.zero.dfmeanrc to the configfile "code" column, then return the corresponding pigid."
+
+
+```r
+configfile[match(colnames(no.zero.dfmeanrc),configfile$code),"pigid"]
 ```
 
 ```
@@ -980,71 +869,64 @@ Assign the column names using match:
 
 
 ```r
-colnames(filtermeanrc)<- configfile[match(colnames(filtermeanrc),configfile$code),"pigid"]
-head(filtermeanrc[1:5])
+colnames(no.zero.dfmeanrc)<- configfile[match(colnames(no.zero.dfmeanrc),configfile$code),"pigid"]
+head(no.zero.dfmeanrc[1:10])
 ```
 
 ```
-##                  1034  1036    1041    1049    1058
-## ssc-let-7a    48132.5 23427 28447.5 29860.0 40757.5
-## ssc-let-7c    32745.0 14987 18144.0 18681.0 34313.0
-## ssc-let-7d-3p   381.0   192   198.0   269.0   778.0
-## ssc-let-7d-5p  4925.0  1938  2511.0  3076.0  3472.0
-## ssc-let-7e     2811.0  1302  1463.0  1690.0  2512.0
-## ssc-let-7f    35432.5 16422 20161.5 22985.5 16512.5
-```
-
-###6. Transpose the data.frame to make the animals take the rows and the miRNAs the columns
-
-
-```r
-transposefiltermeanrc<-t(filtermeanrc)
-
-dim(transposefiltermeanrc)
-```
-
-```
-## [1] 174 285
+##                  1034  1036    1041    1049    1058    1060  1080    1082
+## ssc-let-7a    48132.5 23427 28447.5 29860.0 40757.5 29749.5 38799 31459.5
+## ssc-let-7c    32745.0 14987 18144.0 18681.0 34313.0 15294.0 28022 19512.0
+## ssc-let-7d-3p   381.0   192   198.0   269.0   778.0   239.0   774   355.0
+## ssc-let-7d-5p  4925.0  1938  2511.0  3076.0  3472.0  3276.0  3705  3301.0
+## ssc-let-7e     2811.0  1302  1463.0  1690.0  2512.0  1410.0  2229  1577.0
+## ssc-let-7f    35432.5 16422 20161.5 22985.5 16512.5 24475.5 19175 22094.5
+##                  1085  1091
+## ssc-let-7a    29857.0 21333
+## ssc-let-7c    16741.0 12522
+## ssc-let-7d-3p   243.0   166
+## ssc-let-7d-5p  3094.0  2068
+## ssc-let-7e     1523.0   993
+## ssc-let-7f    22425.5 16483
 ```
 
 ```r
-head(transposefiltermeanrc[,1:5])
+dim(no.zero.dfmeanrc)
 ```
 
 ```
-##      ssc-let-7a ssc-let-7c ssc-let-7d-3p ssc-let-7d-5p ssc-let-7e
-## 1034    48132.5      32745           381          4925       2811
-## 1036    23427.0      14987           192          1938       1302
-## 1041    28447.5      18144           198          2511       1463
-## 1049    29860.0      18681           269          3076       1690
-## 1058    40757.5      34313           778          3472       2512
-## 1060    29749.5      15294           239          3276       1410
+## [1] 335 174
 ```
 
 ```r
-is.numeric(transposefiltermeanrc)
+if (sum(colnames(no.zero.dfmeanrc)!=(configfile$pigid))!=0) stop ("match function did not work correctly")
+```
+
+The final matrix of filtered mean read counts needs to have miRNA rownames and Animal ID colnames
+
+
+```r
+head(rownames(no.zero.dfmeanrc))
 ```
 
 ```
-## [1] TRUE
+## [1] "ssc-let-7a"    "ssc-let-7c"    "ssc-let-7d-3p" "ssc-let-7d-5p"
+## [5] "ssc-let-7e"    "ssc-let-7f"
+```
+
+```r
+head(colnames(no.zero.dfmeanrc))
+```
+
+```
+## [1] "1034" "1036" "1041" "1049" "1058" "1060"
 ```
 
 ## Save data
-What I am saving here is the unfiltered average read counts in one data.frame, and the filtered, transposed average read counts as another data.frame.
-
-###1. Save the unfiltered average read counts as a data.frame and an Rdata object
+What I am saving here is the filtered average read counts in an .Rdata object
 
 
 ```r
-write.table(dfmeanrc, file = "../1_mean_mature_mirna_expression_unfiltered.txt", quote = FALSE, sep = "\t", col.names = TRUE)
-save(dfmeanrc, file = "../1_mean_mature_mirna_expression_unfiltered.Rdata")
-```
-
-###2. Save the filtered, transposed average read counts as a data.frame and an Rdata object
-
-
-```r
-write.table(transposefiltermeanrc, file = "../2_mean_mature_mirna_expression_filtered.txt", quote = FALSE, sep = "\t ", col.names = TRUE)
-save(transposefiltermeanrc, file = "../2_mean_mature_mirna_expression_filtered.Rdata")
+save(no.zero.dfmeanrc, file = "../1_exp_filtered_mean_mature_mirna_expression.Rdata")
 ```
 
