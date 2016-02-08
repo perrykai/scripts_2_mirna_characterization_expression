@@ -92,7 +92,7 @@ test<-mirquant[1:20,1:8]
 
 test[1:10,]
 
-#' ###2. Use the 'by' function to apply the function colMeans to the entire data frame of read counts
+#' ###2. Use the 'by' function to apply the function colMeans to the entire data frame of read counts:
 #' (What this will do is go down the columns looking at the index of grouped miRNA names and take the average of the read counts for that miRNA)
 #' The result of this will be a list containing the average read counts for each miRNA for each animal.
 #' 
