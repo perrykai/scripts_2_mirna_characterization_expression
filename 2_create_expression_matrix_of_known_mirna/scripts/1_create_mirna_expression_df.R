@@ -111,7 +111,7 @@ length(meanrc)
 head(meanrc)
 
 #' 
-#' ###3. Transform the list output back into a data.frame using the plyr package to prepare for gblup function
+#' ###3. Transform the list output back into a data.frame using the plyr package to prepare for gblup function:
 
 #' Example: ldply(.data, .fun, .id)
 #' 
