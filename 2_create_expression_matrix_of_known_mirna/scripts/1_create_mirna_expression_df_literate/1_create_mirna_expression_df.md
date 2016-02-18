@@ -2,7 +2,7 @@
 
 **Directory of Code:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/2_create_expression_matrix_of_known_mirna/scripts`
 
-**Date:**  1/26/16 #UPDATE 2/8/16
+**Date:**  1/26/16 #UPDATE 2/8/16 #UPDATE 2/18/16
 
 **Input File Directory:**  `/mnt/research/pigeqtl/analyses/microRNA/1_preprocess_fastq_files/10_mirdeep2_core_quantify_predict_output`
 
@@ -34,7 +34,7 @@ So, what I need to do:
 3. Transform the list output back into a data.frame using the plyr package to prepare for gblup function
 4. Filter the data for expression threshold: The read count for the miRNA needs to be greater than the number of animals in the population
 5. Restore the pig IDs in place of the 3-digit codes as the column names of the data frame, for use with the gblup function of gwaR
-
+6. Round the mean read counts to the nearest integer for use with the voom function
 ## Install libraries
 
 
@@ -43,7 +43,7 @@ library(plyr)
 ```
 
 ## Load data
-###1. Read in the csv of the miRNA expression profiles, using check.names default to correct column names with non-ASCII characters
+### 1. Read in the csv of the miRNA expression profiles, using check.names default to correct column names with non-ASCII characters
 
 
 ```r
@@ -184,7 +184,7 @@ head(colclass)
 ```
 
 Notice here that the mature miRNA names and the miRNA precursor names are considered factors (columns 1 and 3).
-###2. Read in the config file, maintaining the characters in the 3-digit code names
+### 2. Read in the config file, maintaining the characters in the 3-digit code names
 
 
 ```r
@@ -222,7 +222,7 @@ colnames(configfile)
 ```
 
 ## Analysis
-###1. Extract the columns of mature read counts for each miRNA for each animal
+### 1. Extract the columns of mature read counts for each miRNA for each animal
 
 
 ```r
@@ -300,7 +300,7 @@ test[1:10,]
 ## 10    ssc-let-7i 10966  4496  5306  6397  6161  5474  5958
 ```
 
-###2. Use the 'by' function to apply the function colMeans to the entire data frame of read counts:
+### 2. Use the 'by' function to apply the function colMeans to the entire data frame of read counts:
 (What this will do is go down the columns looking at the index of grouped miRNA names and take the average of the read counts for that miRNA)
 The result of this will be a list containing the average read counts for each miRNA for each animal.
 
@@ -626,7 +626,7 @@ head(meanrc)
 ```
 
 
-###3. Transform the list output back into a data.frame using the plyr package to prepare for gblup function:
+### 3. Transform the list output back into a data.frame using the plyr package to prepare for gblup function:
 Example: ldply(.data, .fun, .id)
 
 id = name of the index column (used if data is a named list). Pass NULL to avoid creation
@@ -691,7 +691,7 @@ head(dfmeanrc[,1:10])
 ## 6 22094.5 22425.5
 ```
 
-###4. Filter the data for expression threshold: The mean read count for the miRNA needs to be greater than the number of animals in the population
+### 4. Filter the data for expression threshold: The mean read count for the miRNA needs to be greater than the number of animals in the population
 
 Set first column of dfmeanrc (miRNA ids) as the row.names:
 
@@ -771,7 +771,7 @@ table(rowSums(dfmeanrc)==0)
 
 So, 76 miRNA profiles contain 0 read counts total, meaning 0 expression
 
-Filter the matrix to keep only those miRNAs whose total expression is greater than 0. 
+Filter the matrix to keep only those miRNAs whose total expression is greater than 0.
 
 
 ```r
@@ -810,7 +810,7 @@ if (sum(rowSums(no.zero.dfmeanrc)==0)!= 0) stop ("expression filtering did not w
 if (sum(colnames(no.zero.dfmeanrc)!=colnames(dfmeanrc)) != 0) stop ("animal order not the same")
 ```
 
-###5. Restore the pig IDs in place of the 3-digit codes as the column names of the data frame, for use with the gblup function of gwaR
+### 5. Restore the pig IDs in place of the 3-digit codes as the column names of the data frame, for use with the gblup function of gwaR
 
 
 ```r
@@ -902,11 +902,52 @@ dim(no.zero.dfmeanrc)
 if (sum(colnames(no.zero.dfmeanrc)!=(configfile$pigid))!=0) stop ("match function did not work correctly")
 ```
 
-The final matrix of filtered mean read counts needs to have miRNA rownames and Animal ID colnames
+### 6. Round the mean read counts to the nearest integer for use with the voom function
 
 
 ```r
-head(rownames(no.zero.dfmeanrc))
+no.zero.dfmeanrc[1:10,1:6]
+```
+
+```
+##                   1034   1036     1041     1049     1058     1060
+## ssc-let-7a     48132.5  23427  28447.5  29860.0  40757.5  29749.5
+## ssc-let-7c     32745.0  14987  18144.0  18681.0  34313.0  15294.0
+## ssc-let-7d-3p    381.0    192    198.0    269.0    778.0    239.0
+## ssc-let-7d-5p   4925.0   1938   2511.0   3076.0   3472.0   3276.0
+## ssc-let-7e      2811.0   1302   1463.0   1690.0   2512.0   1410.0
+## ssc-let-7f     35432.5  16422  20161.5  22985.5  16512.5  24475.5
+## ssc-let-7g     16700.0   8010   9774.0  10902.0  11420.0  11251.0
+## ssc-let-7i     10966.0   4496   5306.0   6397.0   6161.0   5474.0
+## ssc-miR-1     307458.0 228189 261470.0 283840.0 109839.0 282455.0
+## ssc-miR-100     9539.0   3194   3066.0   3069.0  17474.0   2405.0
+```
+
+```r
+no.zero.dfmeanrcround<-round(no.zero.dfmeanrc)
+
+no.zero.dfmeanrcround[1:10,1:6]
+```
+
+```
+##                 1034   1036   1041   1049   1058   1060
+## ssc-let-7a     48132  23427  28448  29860  40758  29750
+## ssc-let-7c     32745  14987  18144  18681  34313  15294
+## ssc-let-7d-3p    381    192    198    269    778    239
+## ssc-let-7d-5p   4925   1938   2511   3076   3472   3276
+## ssc-let-7e      2811   1302   1463   1690   2512   1410
+## ssc-let-7f     35432  16422  20162  22986  16512  24476
+## ssc-let-7g     16700   8010   9774  10902  11420  11251
+## ssc-let-7i     10966   4496   5306   6397   6161   5474
+## ssc-miR-1     307458 228189 261470 283840 109839 282455
+## ssc-miR-100     9539   3194   3066   3069  17474   2405
+```
+
+The final matrix of filtered, rounded, mean read counts needs to have miRNA rownames and Animal ID colnames
+
+
+```r
+head(rownames(no.zero.dfmeanrcround))
 ```
 
 ```
@@ -915,18 +956,22 @@ head(rownames(no.zero.dfmeanrc))
 ```
 
 ```r
-head(colnames(no.zero.dfmeanrc))
+head(colnames(no.zero.dfmeanrcround))
 ```
 
 ```
 ## [1] "1034" "1036" "1041" "1049" "1058" "1060"
 ```
 
+```r
+if (sum(colnames(no.zero.dfmeanrcround)!= configfile$pigid)!= 0) stop ("rownames do not match pigid")
+```
+
 ## Save data
-What I am saving here is the filtered average read counts in an .Rdata object
+What I am saving here is the filtered, rounded, average read counts in an .Rdata object
 
 
 ```r
-save(no.zero.dfmeanrc, file = "../1_exp_filtered_mean_mature_mirna_expression.Rdata")
+save(no.zero.dfmeanrcround, file = "../1_exp_filtered_rounded_mean_mature_mirna_expression.Rdata")
 ```
 
