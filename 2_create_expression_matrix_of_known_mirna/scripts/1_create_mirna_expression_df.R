@@ -32,7 +32,7 @@
 #' 1. Extract the columns of the mature miRNA read counts for each animal
 #' 2. Use the 'by' function to apply the function colmeans to the entire data frame of read counts (What this will do is go down the columns looking at the index of grouped miRNA names and take the average of the read counts for that group of miRNA. The result of this will be a list containing the average read counts for each miRNA for each animal)
 #' 3. Transform the list output back into a data.frame using the plyr package to prepare for gblup function
-#' 4. Filter the data for expression threshold: The read count for the miRNA needs to be greater than the number of animals in the population
+#' 4. Filter the data for expression threshold: The total read count for the miRNA needs to be greater than 0
 #' 5. Restore the pig IDs in place of the 3-digit codes as the column names of the data frame, for use with the gblup function of gwaR
 #' 6. Round the mean read counts to the nearest integer for use with the voom function
 
@@ -136,7 +136,7 @@ if (sum(colnames(dfmeanrc)!=colnames(mirquant)) != 0) stop ("animal order not th
 
 head(dfmeanrc[,1:10])
 
-#' ### 4. Filter the data for expression threshold: The mean read count for the miRNA needs to be greater than the number of animals in the population
+#' ### 4. Filter the data for expression threshold: The total read count for the miRNA needs to be greater than 0
 #' 
 #' Set first column of dfmeanrc (miRNA ids) as the row.names:
 rownames(dfmeanrc)<-dfmeanrc$miRNA

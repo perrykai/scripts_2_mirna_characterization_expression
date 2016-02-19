@@ -137,36 +137,36 @@ label: unnamed-chunk-26
 
 output file: 1_create_mirna_expression_df.md
 
-Job Id: 30041329.mgr-04.i
+Job Id: 30048698.mgr-04.i
     Job_Name = 1_create_mirna_expression_df
-    Job_Owner = perrykai@dev-intel14-phi.i
+    Job_Owner = perrykai@dev-intel10.i
     job_state = R
     queue = main
     server = mgr-04.i
     Checkpoint = u
-    ctime = Thu Feb 18 12:30:45 2016
-    Error_Path = dev-intel14-phi:/mnt/research/pigeqtl/analyses/microRNA/2_mir
-	na_characterization_expression/2_create_expression_matrix_of_known_mir
-	na/scripts/1_create_mirna_expression_df_literate/1_create_mirna_expres
-	sion_df.out
-    exec_host = csm-001/10
+    ctime = Thu Feb 18 21:03:41 2016
+    Error_Path = dev-intel10:/mnt/research/pigeqtl/analyses/microRNA/2_mirna_c
+	haracterization_expression/2_create_expression_matrix_of_known_mirna/s
+	cripts/1_create_mirna_expression_df_literate/1_create_mirna_expression
+	_df.out
+    exec_host = qml-004/35
     Hold_Types = n
     Join_Path = oe
     Keep_Files = n
     Mail_Points = abe
-    mtime = Thu Feb 18 12:32:02 2016
-    Output_Path = dev-intel14-phi:/mnt/research/pigeqtl/analyses/microRNA/2_mi
-	rna_characterization_expression/2_create_expression_matrix_of_known_mi
-	rna/scripts/1_create_mirna_expression_df_literate/1_create_mirna_expre
-	ssion_df.out
+    mtime = Thu Feb 18 21:04:14 2016
+    Output_Path = dev-intel10:/mnt/research/pigeqtl/analyses/microRNA/2_mirna_
+	characterization_expression/2_create_expression_matrix_of_known_mirna/
+	scripts/1_create_mirna_expression_df_literate/1_create_mirna_expressio
+	n_df.out
     Priority = 0
-    qtime = Thu Feb 18 12:30:45 2016
+    qtime = Thu Feb 18 21:03:41 2016
     Rerunable = False
     Resource_List.mem = 1gb
     Resource_List.nodect = 1
     Resource_List.nodes = 1:ppn=1:intel14
     Resource_List.walltime = 00:10:00
-    session_id = 86713
+    session_id = 4187
     Variable_List = PBS_O_QUEUE=main,PBS_O_HOME=/mnt/home/perrykai,
 	PBS_O_LOGNAME=perrykai,
 	PBS_O_PATH=/opt/software/R/3.1.0--GCC-4.4.5/bin:/opt/software/powerto
@@ -179,16 +179,16 @@ Job Id: 30041329.mgr-04.i
 	PBS_O_SHELL=/bin/bash,PBS_O_LANG=en_US.UTF-8,
 	PBS_O_WORKDIR=/mnt/research/pigeqtl/analyses/microRNA/2_mirna_charact
 	erization_expression/2_create_expression_matrix_of_known_mirna/scripts
-	,PBS_O_HOST=dev-intel14-phi.i,PBS_O_SERVER=mgr-04
+	,PBS_O_HOST=dev-intel10.i,PBS_O_SERVER=mgr-04
     euser = perrykai
     egroup = gene-expression
     queue_type = E
-    etime = Thu Feb 18 12:30:45 2016
+    etime = Thu Feb 18 21:03:41 2016
     submit_args = base.sh
-    start_time = Thu Feb 18 12:32:02 2016
-    Walltime.Remaining = 595
+    start_time = Thu Feb 18 21:04:14 2016
+    Walltime.Remaining = 594
     start_count = 1
     fault_tolerant = False
     job_radix = 0
-    submit_host = dev-intel14-phi.i
+    submit_host = dev-intel10.i
 
