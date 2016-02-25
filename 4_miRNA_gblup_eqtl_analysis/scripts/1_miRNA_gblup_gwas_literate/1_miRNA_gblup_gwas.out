@@ -1,0 +1,196 @@
+
+The following have been reloaded with a version change:
+  1) R/3.1.0 => R/3.2.0
+
+
+
+processing file: 1_miRNA_gblup_gwas.Rmd
+  |                                                                         |                                                                 |   0%  |                                                                         |.                                                                |   2%
+  ordinary text without R code
+
+  |                                                                         |...                                                              |   4%
+label: unnamed-chunk-1
+  |                                                                         |....                                                             |   6%
+  ordinary text without R code
+
+  |                                                                         |.....                                                            |   8%
+label: unnamed-chunk-2
+  |                                                                         |......                                                           |  10%
+  ordinary text without R code
+
+  |                                                                         |........                                                         |  12%
+label: unnamed-chunk-3
+  |                                                                         |.........                                                        |  14%
+  ordinary text without R code
+
+  |                                                                         |..........                                                       |  16%
+label: unnamed-chunk-4
+  |                                                                         |...........                                                      |  18%
+  ordinary text without R code
+
+  |                                                                         |.............                                                    |  20%
+label: unnamed-chunk-5
+  |                                                                         |..............                                                   |  22%
+  ordinary text without R code
+
+  |                                                                         |...............                                                  |  24%
+label: unnamed-chunk-6
+  |                                                                         |.................                                                |  25%
+  ordinary text without R code
+
+  |                                                                         |..................                                               |  27%
+label: unnamed-chunk-7
+  |                                                                         |...................                                              |  29%
+  ordinary text without R code
+
+  |                                                                         |....................                                             |  31%
+label: unnamed-chunk-8
+  |                                                                         |......................                                           |  33%
+  ordinary text without R code
+
+  |                                                                         |.......................                                          |  35%
+label: unnamed-chunk-9
+  |                                                                         |........................                                         |  37%
+  ordinary text without R code
+
+  |                                                                         |.........................                                        |  39%
+label: unnamed-chunk-10
+  |                                                                         |...........................                                      |  41%
+  ordinary text without R code
+
+  |                                                                         |............................                                     |  43%
+label: unnamed-chunk-11
+  |                                                                         |.............................                                    |  45%
+  ordinary text without R code
+
+  |                                                                         |...............................                                  |  47%
+label: unnamed-chunk-12
+  |                                                                         |................................                                 |  49%
+  ordinary text without R code
+
+  |                                                                         |.................................                                |  51%
+label: unnamed-chunk-13
+  |                                                                         |..................................                               |  53%
+  ordinary text without R code
+
+  |                                                                         |....................................                             |  55%
+label: unnamed-chunk-14
+  |                                                                         |.....................................                            |  57%
+  ordinary text without R code
+
+  |                                                                         |......................................                           |  59%
+label: unnamed-chunk-15
+  |                                                                         |........................................                         |  61%
+  ordinary text without R code
+
+  |                                                                         |.........................................                        |  63%
+label: unnamed-chunk-16
+  |                                                                         |..........................................                       |  65%
+  ordinary text without R code
+
+  |                                                                         |...........................................                      |  67%
+label: unnamed-chunk-17
+  |                                                                         |.............................................                    |  69%
+  ordinary text without R code
+
+  |                                                                         |..............................................                   |  71%
+label: unnamed-chunk-18
+  |                                                                         |...............................................                  |  73%
+  ordinary text without R code
+
+  |                                                                         |................................................                 |  75%
+label: unnamed-chunk-19
+  |                                                                         |..................................................               |  76%
+  ordinary text without R code
+
+  |                                                                         |...................................................              |  78%
+label: unnamed-chunk-20
+  |                                                                         |....................................................             |  80%
+  ordinary text without R code
+
+  |                                                                         |......................................................           |  82%
+label: unnamed-chunk-21
+  |                                                                         |.......................................................          |  84%
+  ordinary text without R code
+
+  |                                                                         |........................................................         |  86%
+label: unnamed-chunk-22
+  |                                                                         |.........................................................        |  88%
+  ordinary text without R code
+
+  |                                                                         |...........................................................      |  90%
+label: unnamed-chunk-23
+  |                                                                         |............................................................     |  92%
+  ordinary text without R code
+
+  |                                                                         |.............................................................    |  94%
+label: unnamed-chunk-24
+  |                                                                         |..............................................................   |  96%
+  ordinary text without R code
+
+  |                                                                         |................................................................ |  98%
+label: unnamed-chunk-25
+  |                                                                         |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: 1_miRNA_gblup_gwas.md
+
+Job Id: 30182095.mgr-04.i
+    Job_Name = 1_miRNA_gblup_gwas
+    Job_Owner = perrykai@dev-intel14.i
+    resources_used.cput = 00:33:26
+    resources_used.energy_used = 0
+    resources_used.mem = 1961796kb
+    resources_used.vmem = 2445896kb
+    resources_used.walltime = 00:33:32
+    job_state = R
+    queue = main
+    server = mgr-04.i
+    Checkpoint = u
+    ctime = Thu Feb 25 15:07:03 2016
+    Error_Path = dev-intel14:/mnt/research/pigeqtl/analyses/microRNA/2_mirna_c
+	haracterization_expression/4_miRNA_gblup_eqtl_analysis/scripts/1_miRNA
+	_gblup_gwas_literate/1_miRNA_gblup_gwas.out
+    exec_host = csm-021/3
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    mtime = Thu Feb 25 15:07:33 2016
+    Output_Path = dev-intel14:/mnt/research/pigeqtl/analyses/microRNA/2_mirna_
+	characterization_expression/4_miRNA_gblup_eqtl_analysis/scripts/1_miRN
+	A_gblup_gwas_literate/1_miRNA_gblup_gwas.out
+    Priority = 0
+    qtime = Thu Feb 25 15:07:03 2016
+    Rerunable = False
+    Resource_List.mem = 10gb
+    Resource_List.nodect = 1
+    Resource_List.nodes = 1:ppn=1:intel14
+    Resource_List.walltime = 01:00:00
+    session_id = 87217
+    Variable_List = PBS_O_QUEUE=main,PBS_O_HOME=/mnt/home/perrykai,
+	PBS_O_LOGNAME=perrykai,
+	PBS_O_PATH=/opt/software/R/3.2.0--GCC-4.4.5/bin:/opt/software/powerto
+	ols/bin:/opt/software/Stata/13.0:/opt/software/MATLAB/R2014a/bin:/opt/
+	software/Python/2.7.2--GCC-4.4.5/bin:/opt/software/cmake/2.8.5--GCC-4.
+	4.5/bin:/opt/software/OpenMPI/1.4.3--GCC-4.4.5/bin:/usr/lib64/qt-3.3/b
+	in:/opt/software/lmod/bin:/opt/moab/bin:/usr/local/bin:/bin:/usr/bin:/
+	usr/local/sbin:/usr/sbin:/sbin:/usr/local/hpcc/bin:/mnt/home/perrykai/
+	gitclones/spin-my-script,PBS_O_MAIL=/var/spool/mail/perrykai,
+	PBS_O_SHELL=/bin/bash,PBS_O_LANG=en_US.UTF-8,
+	PBS_O_WORKDIR=/mnt/research/pigeqtl/analyses/microRNA/2_mirna_charact
+	erization_expression/4_miRNA_gblup_eqtl_analysis/scripts,
+	PBS_O_HOST=dev-intel14.i,PBS_O_SERVER=mgr-04
+    euser = perrykai
+    egroup = gene-expression
+    queue_type = E
+    etime = Thu Feb 25 15:07:03 2016
+    submit_args = base.sh
+    start_time = Thu Feb 25 15:07:33 2016
+    Walltime.Remaining = 1507
+    start_count = 1
+    fault_tolerant = False
+    job_radix = 0
+    submit_host = dev-intel14.i
+
