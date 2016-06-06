@@ -32,7 +32,7 @@
 #' The objective of this script is to utilize BLAST+ to characterize the ncRNA species (tRNA, sn/snoRNA, miRNA, etc) present in the small RNA seq dataset.
 #' The databases used for this query were created from the Ensembl Sus Scrofa (10.2) ncRNA database, and the Rfam database version 11.0.
 #' See script /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts/4_download_ensembl_rfam_build_blastdb.sh for code building those databases.
-#' First, the sequences will be blasted against the Sus scrofa Rfam and Ensembl sequences, then move sequentially to the Homo sapiens and Mus musculus sequences. 
+#' First, the sequences will be blasted against the Sus scrofa Ensembl noncoding sequences, then move sequentially to the Sus scrofa, Homo sapiens, and Mus musculus Rfam sequences. 
 #' 
 #' ## Install libraries
 module load BLAST+/2.2.30
