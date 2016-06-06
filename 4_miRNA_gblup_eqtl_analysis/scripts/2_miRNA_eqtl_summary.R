@@ -43,6 +43,8 @@ load("/mnt/research/pigeqtl/analyses/eQTL/paper/output/funct_eqtl.Rdata")
 
 library(limma)
 library(edgeR)
+library(gwaR)
+library(plyr)
 
 setwd("/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/4_miRNA_gblup_eqtl_analysis/scripts")
 
@@ -76,6 +78,17 @@ sigh2<-eqtl$gblup[eqtl$gblup$qvalue<0.05,]
 dim(sigh2)
 mean(sigh2$h2)
 summary(sigh2$h2)
+
+
+#' Plot h2 vs -log10-pvalue like before to determine trend in significance and h2:
+plot(eqtl$gblup$h2, -log10(eqtl$gblup$lrtpvalue),
+	xlab = expression("Heritability"~(h^{2})),
+    ylab = "-log10(q-value)",
+    main = "-log10(q-value) vs Heritability")
+points(eqtl$gblup$h2[-log10(eqtl$gblup$lrtpvalue)>(-log10(0.05))],
+       -log10(eqtl$gblup$lrtpvalue)[-log10(eqtl$gblup$lrtpvalue)>(-log10(0.05))],
+       pch=19,col="red")
+
 
 #' ---
 #' 
@@ -128,6 +141,47 @@ table(rsumtb5$Gene)
 #' Names of associated markers:
 table(as.character(rsumtb5$SNP))
 
+#' ### Determining the ranges of associated SNPs per eQTL peak on SSC15 (for ISAG abstract):
+#' 
+#' First, create the summary table at FDR 5% again, this time with pergene=F to identify all markers associated with each eQTL peak:
+fullrsumtb5 <- stb(qval=eqtl$gwa.qval, map=map, annotation=annotation, Z=eqtl$gwa, threshold=0.05, gene.name="Precursors", pergene=F)
+#' Extract from the summary table the markers associated with SSC15
+ssc15fullrsumtb5<-fullrsumtb5[fullrsumtb5$chr.snp == "15",]
+dim(ssc15fullrsumtb5)
+ssc15fullrsumtb5
+
+#' Then, extract the min and max of each miRNA's associated SNPs to determine the range of the eQTL peaks, and check for overlap
+ssc15min<-by(ssc15fullrsumtb5$pos.snp, as.character(ssc15fullrsumtb5$Gene), min)
+ssc15max<-by(ssc15fullrsumtb5$pos.snp, as.character(ssc15fullrsumtb5$Gene), max)
+
+sum(names(ssc15min) != unique(ssc15fullrsumtb5$Gene))
+sum(names(ssc15max) != unique(ssc15fullrsumtb5$Gene))
+
+#' Extract the minimum and maximum SNP positions from the summary table, then merge the two together:
+ssc15min<-ldply(ssc15min, fun=NULL, id=names(ssc15min))
+colnames(ssc15min) <- c("miRNA", "minpos")
+ssc15min
+
+ssc15max<-ldply(ssc15max, fun=NULL, id=names(ssc15max))
+colnames(ssc15max) <- c("miRNA", "maxpos")
+ssc15max
+
+ssc15summary<-merge(ssc15min, ssc15max, by="miRNA")
+ssc15summary
+
+#' Extract the associated number of SNPs per miRNA for SSC15 and add that to the data.frame as well:
+ssc15snps<-by(ssc15fullrsumtb5, as.character(ssc15fullrsumtb5$Gene), nrow)
+ssc15snps<-ldply(ssc15snps, fun=NULL, id=names(ssc15snps))
+colnames(ssc15snps) <- c("miRNA", "numsnps")
+ssc15snps
+
+ssc15summary<-merge(ssc15snps, ssc15summary, by = "miRNA")
+
+ssc15summary$range<-ssc15summary$maxpos - ssc15summary$minpos
+ssc15summary
+
+
 #' ## Save data
 save(rsumtb1, file = "../2_eqtl_summary_table_fdr1.Rdata")
 save(rsumtb5, file = "../3_eqtl_summary_table_fdr5.Rdata")
+save(fullrsumtb5, file = "../4_eqtl_summary_pergeneF_fdr5.Rdata")
