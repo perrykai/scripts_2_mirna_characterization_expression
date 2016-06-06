@@ -10,7 +10,7 @@
 #' 
 #' **Directory of Code:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts`
 #' 
-#' **Date:**  `5/31/16 (full dataset run 5/20/16)`
+#' **Date:**  `5/31/16`
 #' 
 #' **Input File Directory:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/`
 #' 
