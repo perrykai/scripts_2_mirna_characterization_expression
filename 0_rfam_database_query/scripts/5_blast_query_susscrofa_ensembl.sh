@@ -6,19 +6,19 @@
 #PBS -m abe
 #PBS -M perrykai@msu.edu
 
-#' **Script:** `5_blast_query_rfam_ensembl.sh`
+#' **Script:** `5_blast_query_susscrofa_ensembl.sh`
 #' 
 #' **Directory of Code:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts`
 #' 
-#' **Date:**  `5/16/16 (full dataset run 5/20/16)`
+#' **Date:**  `5/31/16 (full dataset run 5/20/16)`
 #' 
 #' **Input File Directory:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/`
 #' 
-#' **Input File(s):** `174_library_collapsed_reads.fa`
+#' **Input File(s):** `174_library_uniq_exp.fa`
 #' 
 #' **Output File Directory:** `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/`
 #' 
-#' **Output File(s):** `1_susscrofa_rfam_ensembl_blastn_output.txt`
+#' **Output File(s):** `1_susscrofa_ensembl_blastn_output_e6.txt`
 #' 
 #' **Table of contents:**
 #'
