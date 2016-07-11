@@ -1,0 +1,26 @@
+#7/11/16
+
+total 103
+-rw-r--r-- 1 perrykai angen  2324 Feb  4 17:49 0_collapse_processed_reads_mirdeep2.sh
+-rw-r--r-- 1 perrykai angen  4105 Jun  2 13:30 10_blast_query_rfam_homosapiens.sh
+-rw-r--r-- 1 perrykai angen  7251 Jun  2 13:28 11_filter_hsapiens_rfam_blast_results.sh
+-rw-r--r-- 1 perrykai angen  4105 Jun  2 14:23 12_blast_query_rfam_musmusculus.sh
+-rw-r--r-- 1 perrykai angen  3282 Jul  8 13:24 13_check_musmusculus_rfam_blast_results.sh
+drwxrwsr-x 2 perrykai angen     4 Jul  7 15:50 14_summarize_blast_rfam_results_literate
+-rw-r--r-- 1 perrykai angen  7020 Jul  7 15:42 14_summarize_blast_rfam_results.R
+drwxrwsr-x 2 perrykai angen     4 Jul  7 15:50 15_summarize_blast_rfam_homo_sapiens_results_literate
+-rw-r--r-- 1 perrykai angen  7048 Jul  7 15:42 15_summarize_blast_rfam_homo_sapiens_results.R
+drwxrwsr-x 2 perrykai angen     4 Jul  7 15:51 16_summarize_blast_rfam_mus_musculus_results_literate
+-rw-r--r-- 1 perrykai angen  7061 Jul  7 15:42 16_summarize_blast_rfam_mus_musculus_results.R
+-rw-r--r-- 1 perrykai angen  2885 Feb  1 16:59 1_download_rfam_database_cmpress.sh                    #NOT USED FOR CHARACTERIZATION ANALYSIS
+-rwxrwxr-- 1 perrykai angen  2766 Feb  5 12:39 2_collapsed_reads_rfam_query_cmscan.sh                 #NOT USED FOR CHARACTERIZATION ANALYSIS
+drwxrwsr-x 2 perrykai angen     4 Mar 12 16:57 3_summarize_rfam_output_literate                       #NOT USED FOR CHARACTERIZATION ANALYSIS
+-rw-r--r-- 1 perrykai angen  1580 Mar 12 18:30 3_summarize_rfam_output.R                              #NOT USED FOR CHARACTERIZATION ANALYSIS
+-rw-r--r-- 1 perrykai angen  8231 Jul 11 13:19 4_download_ensembl_rfam_build_blastdb.sh
+-rw-r--r-- 1 perrykai angen  4229 Jul 11 14:46 5_0_blast_query_susscrofa_mirbase.sh
+-rw-r--r-- 1 perrykai angen  4071 Jun  6 14:58 5_blast_query_susscrofa_ensembl.sh
+drwxrwsr-x 2 perrykai angen     4 Jul  7 16:41 6_summarize_blast_results_literate
+-rw-r--r-- 1 perrykai angen 10355 Jul  7 15:42 6_summarize_blast_results.R
+-rw-r--r-- 1 perrykai angen  4788 Jun  1 10:59 7_filter_blast_results_unix.sh
+-rw-r--r-- 1 perrykai angen  4071 May 31 17:48 8_blast_query_rfam_susscrofa.sh
+-rw-r--r-- 1 perrykai angen  6179 Jun  2 12:13 9_filter_sscrofa_rfam_blast_results.sh

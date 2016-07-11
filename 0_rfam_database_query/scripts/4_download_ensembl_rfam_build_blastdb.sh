@@ -2,17 +2,20 @@
 #' 
 #' **Directory of Code:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query`
 #' 
-#' **Date:**  `5/12/16 MODIFIED 5/29/16`
+#' **Date:**  `5/12/16 MODIFIED 5/29/16, 7/11/16`
 #' 
 #' **Input File Directory:**  
 #' 
 #' 1. `ftp://ftp.ensembl.org/pub/release-84/fasta/sus_scrofa/ncrna/`
 #' 2. `ftp://ftp.ebi.ac.uk/pub/databases/Rfam/11.0/`
+#' 3. `/mnt/research/pigeqtl/analyses/microRNA/reference_sequences/`
 #' 
 #' **Input File(s):** 
 #' 
 #' 1. `Sus_scrofa.Sscrofa10.2.ncrna.fa.gz`
 #' 2. `Rfam.fasta.gz`
+#' 3. `174_library_collapsed_reads.fa`
+#' 4. `ssc_mature_mir.fa`
 #' 
 #' **Output File Directory:** `/mnt/research/pigeqtl/analyses/microRNA/reference_sequences`
 #' 
@@ -23,20 +26,21 @@
 #' 3. `Susscrofa_Rfam_seq.fa`
 #' 4. `Homosapiens_Rfam_seq.fa`
 #' 5. `Musmusculus_Rfam_seq.fa`
+#' 6. `174_library_uniq_exp.fa`
+#' 7. `ssc_mature_mir
 #' 
 #' **Table of contents:**
 #'
 #' 1. [Objectives](#objectives)
 #' 2. [Install libraries](#install-libraries)
-#' 2. [Analysis](#analysis)
+#' 3. [Analysis](#analysis)
 #' 
 #' ## Objectives
 
 #' The objectives of this script are to download the Sus scrofa ncRNA sequences from Ensembl 
 #' and the Rfam database (version 11.0) for use in characterizing the smallRNA species present in the 
-#' small RNA seq data obtained from the 174 F2 MSUPRP samples. Additionally, these two databases will be built into
-#' BLAST databases for use in the BLAST query. 
-
+#' small RNA seq data obtained from the 174 F2 MSUPRP samples. These databases will be built into BLAST databases for use in the BLAST query. 
+#' Additionally, the mature miRNA miRBase database will be built into a BLAST database. 
 #' 
 #' ## Install libraries
 module load BLAST+/2.2.30
@@ -176,14 +180,15 @@ makeblastdb -in Musmusculus_Rfam_seq.fa -input_type fasta -dbtype nucl -title "M
 # Maximum file size: 1000000000B
 # Adding sequences from FASTA; added 5935 sequences in 0.181584 seconds.
 
-#' Test that the format of the Rfam databases built with the awk script will work with the makeblastdb and isn't missing anything in its blast against the small RNA seq data:
-#' First, take a few sequences out of the Rfam Sus scrofa database that had blast hits:
+#' 
+#' Additionally, make the miRBase database into a BLAST database by using the same command on the ssc_mature_mir.fa database (from reference_sequences directory)
+makeblastdb -in ssc_mature_mir.fa -input_type fasta -dbtype nucl -title "Sus Scrofa miRBase (Release 21) Database"
 
-# seq_161536921_x29165    RF00001;5S_rRNA;CT009542.22/163378-163269       100.00  20      0       0       1       20      72      91      6e-07   40.1
-# seq_164820205_x24792    RF00708;mir-450;AEMK01130021.1/1834-1924        100.00  21      0       0       1       21      18      38      1e-07   42.1
-# seq_167301252_x22072    RF00737;mir-322;CU468475.7/117556-117473        100.00  22      0       0       1       22      11      32      4e-08   44.1
-# seq_171050786_x17914    RF00708;mir-450;AEMK01130021.1/1834-1924        100.00  20      0       0       1       20      18      37      6e-07   40.1
-# seq_176615697_x13351    RF00737;mir-322;CU468475.7/117556-117473        100.00  20      0       0       1       20      11      30      6e-07   40.1
-# seq_178776422_x11814    RF00737;mir-322;CU468475.7/117556-117473        100.00  22      0       0       1       22      11      32      4e-08   44.1
-
-makeblastdb -in Susscrofa_Rfam_seq.fa -input_type fasta -dbtype nucl -title "Sus Scrofa Rfam Database"
+# Building a new DB, current time: 07/11/2016 13:15:36
+# New DB name:   ssc_mature_mir.fa
+# New DB title:  Sus Scrofa miRBase (Release 21) Database
+# Sequence type: Nucleotide
+# Keep Linkouts: T
+# Keep MBits: T
+# Maximum file size: 1000000000B
+# Adding sequences from FASTA; added 411 sequences in 0.05849 seconds.
