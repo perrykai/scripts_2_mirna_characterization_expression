@@ -1,0 +1,6 @@
+#7/13/16
+total 264
+-rw-------@  1 kaitlyn_perry  staff    46K Jul 11 13:25 uniqseq_summary.xlsx         # this file from previous analysis
+-rw-------@  1 kaitlyn_perry  staff    34K Jul 11 13:25 totseq_summary.xlsx          # this file from previous analysis
+-rw-------@  1 kaitlyn_perry  staff    46K Jul 13 11:11 figure_summary_12_jul.xlsx   # this is the summary file from the most current analysis
+drwxr-xr-x@ 26 kaitlyn_perry  staff   884B Jul 13 11:44 scripts
