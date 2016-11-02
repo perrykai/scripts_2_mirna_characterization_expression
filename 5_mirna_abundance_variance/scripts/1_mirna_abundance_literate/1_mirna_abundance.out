@@ -1,0 +1,137 @@
+
+The following have been reloaded with a version change:
+  1) R/3.1.0 => R/3.2.0
+
+
+
+processing file: 1_mirna_abundance.Rmd
+  |                                                                         |                                                                 |   0%  |                                                                         |..                                                               |   3%
+  ordinary text without R code
+
+  |                                                                         |....                                                             |   7%
+label: unnamed-chunk-1
+  |                                                                         |.......                                                          |  10%
+  ordinary text without R code
+
+  |                                                                         |.........                                                        |  14%
+label: unnamed-chunk-2
+  |                                                                         |...........                                                      |  17%
+  ordinary text without R code
+
+  |                                                                         |.............                                                    |  21%
+label: unnamed-chunk-3
+  |                                                                         |................                                                 |  24%
+  ordinary text without R code
+
+  |                                                                         |..................                                               |  28%
+label: unnamed-chunk-4
+  |                                                                         |....................                                             |  31%
+  ordinary text without R code
+
+  |                                                                         |......................                                           |  34%
+label: unnamed-chunk-5
+  |                                                                         |.........................                                        |  38%
+  ordinary text without R code
+
+  |                                                                         |...........................                                      |  41%
+label: unnamed-chunk-6
+  |                                                                         |.............................                                    |  45%
+  ordinary text without R code
+
+  |                                                                         |...............................                                  |  48%
+label: unnamed-chunk-7
+  |                                                                         |..................................                               |  52%
+  ordinary text without R code
+
+  |                                                                         |....................................                             |  55%
+label: unnamed-chunk-8
+  |                                                                         |......................................                           |  59%
+  ordinary text without R code
+
+  |                                                                         |........................................                         |  62%
+label: unnamed-chunk-9
+  |                                                                         |...........................................                      |  66%
+  ordinary text without R code
+
+  |                                                                         |.............................................                    |  69%
+label: unnamed-chunk-10
+  |                                                                         |...............................................                  |  72%
+  ordinary text without R code
+
+  |                                                                         |.................................................                |  76%
+label: unnamed-chunk-11
+  |                                                                         |....................................................             |  79%
+  ordinary text without R code
+
+  |                                                                         |......................................................           |  83%
+label: unnamed-chunk-12
+  |                                                                         |........................................................         |  86%
+  ordinary text without R code
+
+  |                                                                         |..........................................................       |  90%
+label: unnamed-chunk-13
+  |                                                                         |.............................................................    |  93%
+  ordinary text without R code
+
+  |                                                                         |...............................................................  |  97%
+label: unnamed-chunk-14
+  |                                                                         |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: 1_mirna_abundance.md
+
+Job Id: 36847410.mgr-04.i
+    Job_Name = 1_mirna_abundance
+    Job_Owner = perrykai@dev-intel16.i
+    job_state = R
+    queue = main
+    server = mgr-04.i
+    Checkpoint = u
+    ctime = Tue Nov  1 13:43:13 2016
+    Error_Path = dev-intel16:/mnt/research/pigeqtl/analyses/microRNA/2_mirna_c
+	haracterization_expression/5_mirna_abundance_variance/scripts/1_mirna_
+	abundance_literate/1_mirna_abundance.out
+    exec_host = csm-023/1
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    mtime = Tue Nov  1 13:43:46 2016
+    Output_Path = dev-intel16:/mnt/research/pigeqtl/analyses/microRNA/2_mirna_
+	characterization_expression/5_mirna_abundance_variance/scripts/1_mirna
+	_abundance_literate/1_mirna_abundance.out
+    Priority = 0
+    qtime = Tue Nov  1 13:43:13 2016
+    Rerunable = False
+    Resource_List.mem = 1gb
+    Resource_List.nodect = 1
+    Resource_List.nodes = 1:ppn=1:intel14
+    Resource_List.walltime = 00:05:00
+    session_id = 98573
+    Variable_List = PBS_O_QUEUE=main,PBS_O_HOME=/mnt/home/perrykai,
+	PBS_O_LOGNAME=perrykai,
+	PBS_O_PATH=/opt/software/R/3.2.0--GCC-4.4.5/bin:/opt/software/powerto
+	ols/bin:/opt/software/Stata/13.0:/opt/software/MATLAB/R2014a/bin:/opt/
+	software/Python/2.7.2--GCC-4.4.5/bin:/opt/software/cmake/2.8.5--GCC-4.
+	4.5/bin:/opt/software/OpenMPI/1.4.3--GCC-4.4.5/bin:/usr/lib64/qt-3.3/b
+	in:/opt/software/lmod/bin:/opt/moab/bin:/usr/local/bin:/bin:/usr/bin:/
+	usr/local/sbin:/usr/sbin:/sbin:/usr/local/hpcc/bin:/opt/ibutils/bin:/m
+	nt/home/perrykai/gitclones/spin-my-script,
+	PBS_O_MAIL=/var/spool/mail/perrykai,PBS_O_SHELL=/bin/bash,
+	PBS_O_LANG=en_US.UTF-8,
+	PBS_O_WORKDIR=/mnt/research/pigeqtl/analyses/microRNA/2_mirna_charact
+	erization_expression/5_mirna_abundance_variance/scripts,
+	PBS_O_HOST=dev-intel16.i,PBS_O_SERVER=mgr-04
+    euser = perrykai
+    egroup = gene-expression
+    queue_type = E
+    etime = Tue Nov  1 13:43:13 2016
+    submit_args = base.sh
+    start_time = Tue Nov  1 13:43:46 2016
+    Walltime.Remaining = 295
+    start_count = 1
+    fault_tolerant = False
+    job_radix = 0
+    submit_host = dev-intel16.i
+
