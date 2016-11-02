@@ -1,24 +1,24 @@
 #!/bin/sh  -login
-#PBS -l nodes=1:ppn=9,walltime=01:00:00,mem=5Gb
-#PBS -N blastn_sscrofa_ensembl_query
+#PBS -l nodes=1:ppn=9,walltime=00:10:00,mem=3Gb
+#PBS -N blastn_homosapiens_rfam_query
 #PBS -j oe
 #PBS -o /mnt/research/pigeqtl/analyses/microRNA/OutputsErrors/
-#PBS -m abe
+#PBS -m a
 #PBS -M perrykai@msu.edu
 
-#' **Script:** `5_blast_query_susscrofa_ensembl.sh`
+#' **Script:** `11_blast_query_homosapiens_rfam.sh`
 #' 
 #' **Directory of Code:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts`
 #' 
-#' **Date:**  `5/31/16 UPDATED 7/11/16`
+#' **Date:**  `7/12/16`
 #' 
 #' **Input File Directory:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/`
 #' 
-#' **Input File(s):** `174_library_ensembl_blast_input_uniq_seq.fa`
+#' **Input File(s):** `174_library_homosapiens_rfam_blast_input_uniq_seq.fa`
 #' 
 #' **Output File Directory:** `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/`
 #' 
-#' **Output File(s):** `1_susscrofa_ensembl_blastn_output_e5.txt`
+#' **Output File(s):** `3_homosapiens_rfam_blastn_output_e5.txt`
 #' 
 #' **Table of contents:**
 #'
@@ -30,9 +30,9 @@
 #' ## Objectives
 #' 
 #' The objective of this script is to utilize BLAST+ to characterize the ncRNA species (tRNA, sn/snoRNA, miRNA, etc) present in the small RNA seq dataset.
-#' The databases used for this query were created from the Sus scrofa miRBase (release 21), Ensembl Sus Scrofa (10.2) ncRNA database, and the Rfam database version 11.0.
+#' The databases used for this query were created from the Sus scrofa miRBase (release 21), the Sus scrofa (10.2) Ensembl ncRNA database, and the Rfam database version 11.0.
 #' See script /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts/4_download_ensembl_rfam_build_blastdb.sh for code building those databases.
-#' In this script, the sequences will be blasted against the Sus scrofa Ensembl noncoding sequences, then move sequentially to the Sus scrofa, Homo sapiens, and Mus musculus Rfam databases. 
+#' First, the sequences will be blasted against the Sus scrofa miRBase and Ensembl noncoding sequences, then move sequentially to the Sus scrofa, Homo sapiens, and Mus musculus Rfam sequences. 
 #' 
 #' ## Install libraries
 module load BLAST+/2.2.30
@@ -42,7 +42,7 @@ module load BLAST+/2.2.30
 cd /mnt/research/pigeqtl/analyses/microRNA/reference_sequences/
 
 #' 
-#' BLASTing the small RNAseq unique sequences (expressed >1 time) against the Sus scrofa miRBase, Rfam, and Ensembl databases:
+#' BLASTing the small RNAseq unique sequences (expressed > 1 time) against the Sus scrofa miRBase, Sus scrofa Ensembl, and the Rfam databases:
 #' 
 #' Parameters used: (See websites http://www.ncbi.nlm.nih.gov/BLAST/Why.shtml, http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=FAQ, and documentation http://www.ncbi.nlm.nih.gov/books/NBK279690/ for details)
 #' 
@@ -69,7 +69,7 @@ cd /mnt/research/pigeqtl/analyses/microRNA/reference_sequences/
 
 #' 
 #' Tabular results:
-blastn -query /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/174_library_ensembl_blast_input_uniq_seq.fa -task blastn-short -db /mnt/research/pigeqtl/analyses/microRNA/reference_sequences/"Sus_scrofa.Sscrofa10.2.ncrna.fa" -out /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/1_susscrofa_ensembl_blastn_output_e5.txt -evalue 0.00001 -outfmt 6 -num_threads 8
+blastn -query /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/174_library_homosapiens_rfam_blast_input_uniq_seq.fa -task blastn-short -db /mnt/research/pigeqtl/analyses/microRNA/reference_sequences/"Homosapiens_Rfam_seq.fa" -out /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/3_homosapiens_rfam_blastn_output_e5.txt -evalue 0.00001 -outfmt 6 -num_threads 8
 
 qstat -f ${PBS_JOBID}
 

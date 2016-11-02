@@ -1,20 +1,20 @@
-#' **Script:** `15_summarize_blast_rfam_homo_sapiens_results.R`
+#' **Script:** `10_summarize_susscrofa_rfam_blast_results.R`
 #' 
 #' **Directory of Code:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts`
 #' 
-#' **Date:**  7/13/16
+#' **Date:**  7/12/16
 #' 
 #' **Input File Directory:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/`
 #' 
-#' **Input File(s):** `3_homosapiens_rfam_blastn_output_e5.txt`
+#' **Input File(s):** `2_susscrofa_rfam_blastn_output_e5.txt`
 #' 
 #' **Output File Directory:** `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/`
 #' 
 #' **Output File(s):** 
 #' 
-#' 1. `3a_homosapiens_filtered_rfam_blastn_results.Rdata`
-#' 2. `3b_homosapiens_filtered_uniqseq_rfam_blastn_results.csv`
-#' 3. `3c_homosapiens_filtered_totseq_rfam_blastn_results.csv`
+#' 1. `2a_susscrofa_filtered_rfam_blastn_results.Rdata`
+#' 2. `2b_susscrofa_filtered_uniqseq_rfam_blastn_results.csv`
+#' 3. `2c_susscrofa_filtered_totseq_rfam_blastn_results.csv`
 #' 
 #' **Table of contents:**
 #'
@@ -27,7 +27,7 @@
 #' ## Objectives
 #' 
 #' The objective of this script is to filter and summarize the output from the sequential BLAST queries in order to characterize the small RNA classes present in the small RNA seq data.
-#' This script filters and summarizes the blast results from the Homo sapiens Rfam database query.
+#' This script filters and summarizes the blast results from the Sus scrofa Rfam database query.
 #' 
 #' First, if there is only one hit for a sequence, return that hit.
 #' If there is more than one hit for a sequence, retain those BLAST hits that are 100% identical to the query sequence.
@@ -46,28 +46,28 @@ rm(list=ls())
 setwd("/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts")
 
 system.time({
-hsa<-read.table("../3_homosapiens_rfam_blastn_output_e5.txt", header=FALSE, sep="", col.names=c("query_id","dbseq_id","perc_identical","length","mismatch","gapopen","query_start","query_end","dbseq_start","dbseq_end","evalue","bitscore"))
+ssc<-read.table("../2_susscrofa_rfam_blastn_output_e5.txt", header=FALSE, sep="", col.names=c("query_id","dbseq_id","perc_identical","length","mismatch","gapopen","query_start","query_end","dbseq_start","dbseq_end","evalue","bitscore"))
 })
 
-dim(hsa)
-head(hsa)
-str(hsa)
+dim(ssc)
+head(ssc)
+str(ssc)
 
 #' ## Analysis
-hsa$dbseq_id<-as.character(hsa$dbseq_id)
-hsa$query_id<-as.character(hsa$query_id)
+ssc$dbseq_id<-as.character(ssc$dbseq_id)
+ssc$query_id<-as.character(ssc$query_id)
 
 #' Summarize the Rfam database hits by separating the components of the "dbseq_id" column at the semicolons.
-hsa$rfam_accession <- as.character(lapply(strsplit(as.character(hsa$dbseq_id), ';', fixed = TRUE), "[", 1))
-hsa$rfam_biotype <- as.character(lapply(strsplit(as.character(hsa$dbseq_id), ';', fixed = TRUE), "[", 2))
-hsa$rfam_seqnamestartend <- as.character(lapply(strsplit(as.character(hsa$dbseq_id), ';', fixed = TRUE), "[", 3))
-head(hsa)
+ssc$rfam_accession <- as.character(lapply(strsplit(as.character(ssc$dbseq_id), ';', fixed = TRUE), "[", 1))
+ssc$rfam_biotype <- as.character(lapply(strsplit(as.character(ssc$dbseq_id), ';', fixed = TRUE), "[", 2))
+ssc$rfam_seqnamestartend <- as.character(lapply(strsplit(as.character(ssc$dbseq_id), ';', fixed = TRUE), "[", 3))
+head(ssc)
 
-#' The number of unique sequences with homo sapiens Rfam hits in this dataset
-length(unique(hsa$query_id))
+#' The number of unique sequences with susscrofa Rfam hits in this dataset
+length(unique(ssc$query_id))
 
 #' Create a subset data frame containing the pertinent information for filtering
-rfamsubset<-hsa[,c("query_id", "perc_identical", "evalue", "bitscore", "rfam_accession", "rfam_biotype")]
+rfamsubset<-ssc[,c("query_id", "perc_identical", "evalue", "bitscore", "rfam_accession", "rfam_biotype")]
 dim(rfamsubset)
 head(rfamsubset)
 
@@ -143,36 +143,36 @@ stp4 <- stp3[unlist(lapply(stp3,nrow)) > 1]
 length(stp4)
 
 #' Summary file of small RNA sequence ensembl blast results
-sumblast4 <- do.call(rbind,stp3)
-head(sumblast4)
-dim(sumblast4)
-length(unique(sumblast4$query_id))
+sumblast3 <- do.call(rbind,stp3)
+head(sumblast3)
+dim(sumblast3)
+length(unique(sumblast3$query_id))
 
-table(sumblast4$rfam_biotype)
+table(sumblast3$rfam_biotype)
 
-uniqsumblast4<-as.data.frame(table(sumblast4$rfam_biotype))
-colnames(uniqsumblast4)<-c("Gene_Biotype", "Freq")
-uniqsumblast4
+uniqsumblast3<-as.data.frame(table(sumblast3$rfam_biotype))
+colnames(uniqsumblast3)<-c("Gene_Biotype", "Freq")
+uniqsumblast3
 
 #' Add the column of sequence count to the sumblast data frame
-sumblast4$seq_count<-as.numeric(str_split_fixed(sumblast4$query_id, "_x", 2)[,2])
-head(sumblast4)
+sumblast3$seq_count<-as.numeric(str_split_fixed(sumblast3$query_id, "_x", 2)[,2])
+head(sumblast3)
 
 #' Use the "by" function to sum the sequence counts by their gene biotypes
-totalsumbiotype4<-as.matrix(by(sumblast4$seq_count, sumblast4$rfam_biotype, sum))
-totalsumbiotype4
+totalsumbiotype3<-as.matrix(by(sumblast3$seq_count, sumblast3$rfam_biotype, sum))
+totalsumbiotype3
 
-if (sum(rownames(totalsumbiotype4) != uniqsumblast4$Gene_Biotype)) stop ("Gene_Biotypes not equal")
+if (sum(rownames(totalsumbiotype3) != uniqsumblast3$Gene_Biotype)) stop ("Gene_Biotypes not equal")
 
 #' As a check, manually sum the 5s_rRNAs and the tRNA fields:
-sum(sumblast4$seq_count[sumblast4$rfam_biotype == "5S_rRNA"])
+sum(sumblast3$seq_count[sumblast3$rfam_biotype == "5S_rRNA"])
 
-sum(sumblast4$seq_count[sumblast4$rfam_biotype == "tRNA"])
+sum(sumblast3$seq_count[sumblast3$rfam_biotype == "tRNA"])
 
-if (sum(sumblast4$seq_count[sumblast4$rfam_biotype == "5S_rRNA"]) != totalsumbiotype4["5S_rRNA",]) stop ("5S_rRNA counts not equal")
-if (sum(sumblast4$seq_count[sumblast4$rfam_biotype == "tRNA"]) != totalsumbiotype4["tRNA",]) stop ("tRNA counts not equal")
+if (sum(sumblast3$seq_count[sumblast3$rfam_biotype == "5S_rRNA"]) != totalsumbiotype3["5S_rRNA",]) stop ("5S_rRNA counts not equal")
+if (sum(sumblast3$seq_count[sumblast3$rfam_biotype == "tRNA"]) != totalsumbiotype3["tRNA",]) stop ("tRNA counts not equal")
 
 #' ## Save data
-save(sumblast4, uniqsumblast4, totalsumbiotype4, file=("/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/3a_homosapiens_filtered_rfam_blastn_results.Rdata"))
-write.csv(uniqsumblast4, file="/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/3b_homosapiens_filtered_uniqseq_rfam_blastn_results.csv")
-write.csv(totalsumbiotype4, file="/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/3c_homosapiens_filtered_totseq_rfam_blastn_results.csv", row.names=TRUE)
+save(sumblast3, uniqsumblast3, totalsumbiotype3, file=("/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/2a_susscrofa_filtered_rfam_blastn_results.Rdata"))
+write.csv(uniqsumblast3, file="/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/2b_susscrofa_filtered_uniqseq_rfam_blastn_results.csv")
+write.csv(totalsumbiotype3, file="/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/2c_susscrofa_filtered_totseq_rfam_blastn_results.csv", row.names=TRUE)

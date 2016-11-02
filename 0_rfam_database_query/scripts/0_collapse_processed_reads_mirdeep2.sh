@@ -45,6 +45,6 @@ cd /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0
 mapper.pl ../../1_preprocess_fastq_files/9_mirdeep2_genome_mapper_output/174_library_reads_processed.fa -c -m -s 174_library_collapsed_reads.fa
 
 # Split the files so each one has 253578 lines, meaning each file has 126789 sequences and can run efficiently through Infernal
-split -d -l 253578 174_library_collapsed_reads.fa ./split_174_library_collapsed_files/174_split_collapsed_reads_ 
+#split -d -l 253578 174_library_collapsed_reads.fa ./split_174_library_collapsed_files/174_split_collapsed_reads_ 
 
 qstat -f ${PBS_JOBID}

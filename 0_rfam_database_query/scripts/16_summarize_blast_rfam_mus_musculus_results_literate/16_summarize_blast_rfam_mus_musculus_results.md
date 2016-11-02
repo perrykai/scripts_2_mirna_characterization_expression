@@ -2,15 +2,19 @@
 
 **Directory of Code:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts`
 
-**Date:**  7/7/16
+**Date:**  7/13/16
 
 **Input File Directory:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/`
 
-**Input File(s):** `4_musmusculus_rfam_blastn_output_e6.txt`
+**Input File(s):** `4_musmusculus_rfam_blastn_output_e5.txt`
 
 **Output File Directory:** `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/`
 
-**Output File(s):** `8_musmusculus_filtered_rfam_blastn_results.Rdata`
+**Output File(s):** 
+
+1. `4a_musmusculus_filtered_rfam_blastn_results.Rdata`
+2. `4b_musmusculus_filtered_uniqseq_rfam_blastn_results.csv`
+3. `4c_musmusculus_filtered_totseq_rfam_blastn_results.csv`
 
 **Table of contents:**
 
@@ -49,13 +53,13 @@ rm(list=ls())
 setwd("/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts")
 
 system.time({
-mmu<-read.table("../4_musmusculus_rfam_blastn_output_e6.txt", header=FALSE, sep="", col.names=c("query_id","dbseq_id","perc_identical","length","mismatch","gapopen","query_start","query_end","dbseq_start","dbseq_end","evalue","bitscore"))
+mmu<-read.table("../4_musmusculus_rfam_blastn_output_e5.txt", header=FALSE, sep="", col.names=c("query_id","dbseq_id","perc_identical","length","mismatch","gapopen","query_start","query_end","dbseq_start","dbseq_end","evalue","bitscore"))
 })
 ```
 
 ```
 ##    user  system elapsed 
-##   0.214   0.006   0.239
+##   0.249   0.007   0.337
 ```
 
 ```r
@@ -63,7 +67,7 @@ dim(mmu)
 ```
 
 ```
-## [1] 20788    12
+## [1] 27267    12
 ```
 
 ```r
@@ -71,27 +75,27 @@ head(mmu)
 ```
 
 ```
-##                query_id                                        dbseq_id
-## 1 seq_125916817_x153124        RF00683;mir-143;AEKR01113265.1/9034-8929
-## 2  seq_137069853_x95209        RF00783;mir-484;AEKR01206416.1/2916-2850
-## 3  seq_144363225_x67330        RF00783;mir-484;AEKR01206416.1/2916-2850
-## 4  seq_162056863_x28478        RF00783;mir-484;AEKR01206416.1/2916-2850
-## 5  seq_164216929_x25364 RF01960;SSU_rRNA_eukarya;CT010467.6/67702-65856
-## 6  seq_165552505_x23995 RF01960;SSU_rRNA_eukarya;CT010467.6/67702-65856
+##               query_id                                    dbseq_id
+## 1 seq_137069853_x95209    RF00783;mir-484;AEKR01206416.1/2916-2850
+## 2 seq_144363225_x67330    RF00783;mir-484;AEKR01206416.1/2916-2850
+## 3 seq_157575655_x34724    RF00783;mir-484;AEKR01206416.1/2916-2850
+## 4 seq_162056863_x28478    RF00783;mir-484;AEKR01206416.1/2916-2850
+## 5 seq_167564473_x21752 RF01942;mir-1937;CAAA01156883.1/50076-50196
+## 6 seq_167564473_x21752     RF01942;mir-1937;AAHY01278511.1/601-482
 ##   perc_identical length mismatch gapopen query_start query_end dbseq_start
-## 1            100     22        0       0           1        22          61
+## 1            100     22        0       0           1        22           5
 ## 2            100     22        0       0           1        22           5
-## 3            100     22        0       0           1        22           5
+## 3            100     21        0       0           1        21           5
 ## 4            100     23        0       0           1        23           5
-## 5            100     25        0       0           1        25         844
-## 6            100     24        0       0           1        24         845
+## 5            100     20        0       0           3        22          27
+## 6            100     20        0       0           3        22          19
 ##   dbseq_end evalue bitscore
-## 1        82  4e-07     44.1
+## 1        26  4e-07     44.1
 ## 2        26  4e-07     44.1
-## 3        26  4e-07     44.1
+## 3        25  1e-06     42.1
 ## 4        27  1e-07     46.1
-## 5       868  8e-09     50.1
-## 6       868  3e-08     48.1
+## 5        46  6e-06     40.1
+## 6        38  6e-06     40.1
 ```
 
 ```r
@@ -99,19 +103,19 @@ str(mmu)
 ```
 
 ```
-## 'data.frame':	20788 obs. of  12 variables:
-##  $ query_id      : Factor w/ 14134 levels "seq_125916817_x153124",..: 1 2 3 4 5 6 7 8 9 9 ...
-##  $ dbseq_id      : Factor w/ 284 levels "RF00001;5S_rRNA;AAHY01033596.1/32099-31993",..: 256 261 261 261 284 284 284 258 59 51 ...
+## 'data.frame':	27267 obs. of  12 variables:
+##  $ query_id      : Factor w/ 17078 levels "seq_137069853_x95209",..: 1 2 3 4 5 5 5 5 6 7 ...
+##  $ dbseq_id      : Factor w/ 496 levels "RF00001;5S_rRNA;AAHY01011173.1/676-776",..: 397 397 397 397 485 422 413 435 495 495 ...
 ##  $ perc_identical: num  100 100 100 100 100 100 100 100 100 100 ...
-##  $ length        : int  22 22 22 23 25 24 24 23 25 25 ...
+##  $ length        : int  22 22 21 23 20 20 20 20 24 21 ...
 ##  $ mismatch      : int  0 0 0 0 0 0 0 0 0 0 ...
 ##  $ gapopen       : int  0 0 0 0 0 0 0 0 0 0 ...
-##  $ query_start   : int  1 1 1 1 1 1 1 1 1 1 ...
-##  $ query_end     : int  22 22 22 23 25 24 24 23 25 25 ...
-##  $ dbseq_start   : int  61 5 5 5 844 845 1 6 1 1 ...
-##  $ dbseq_end     : int  82 26 26 27 868 868 24 28 25 25 ...
-##  $ evalue        : num  4e-07 4e-07 4e-07 1e-07 8e-09 3e-08 3e-08 1e-07 8e-09 8e-09 ...
-##  $ bitscore      : num  44.1 44.1 44.1 46.1 50.1 48.1 48.1 46.1 50.1 50.1 ...
+##  $ query_start   : int  1 1 1 1 3 3 3 3 1 1 ...
+##  $ query_end     : int  22 22 21 23 22 22 22 22 24 21 ...
+##  $ dbseq_start   : int  5 5 5 5 27 19 27 27 1 1 ...
+##  $ dbseq_end     : int  26 26 25 27 46 38 46 46 24 21 ...
+##  $ evalue        : num  4e-07 4e-07 1e-06 1e-07 6e-06 6e-06 6e-06 6e-06 3e-08 1e-06 ...
+##  $ bitscore      : num  44.1 44.1 42.1 46.1 40.1 40.1 40.1 40.1 48.1 42.1 ...
 ```
 
 ## Analysis
@@ -133,34 +137,34 @@ head(mmu)
 ```
 
 ```
-##                query_id                                        dbseq_id
-## 1 seq_125916817_x153124        RF00683;mir-143;AEKR01113265.1/9034-8929
-## 2  seq_137069853_x95209        RF00783;mir-484;AEKR01206416.1/2916-2850
-## 3  seq_144363225_x67330        RF00783;mir-484;AEKR01206416.1/2916-2850
-## 4  seq_162056863_x28478        RF00783;mir-484;AEKR01206416.1/2916-2850
-## 5  seq_164216929_x25364 RF01960;SSU_rRNA_eukarya;CT010467.6/67702-65856
-## 6  seq_165552505_x23995 RF01960;SSU_rRNA_eukarya;CT010467.6/67702-65856
+##               query_id                                    dbseq_id
+## 1 seq_137069853_x95209    RF00783;mir-484;AEKR01206416.1/2916-2850
+## 2 seq_144363225_x67330    RF00783;mir-484;AEKR01206416.1/2916-2850
+## 3 seq_157575655_x34724    RF00783;mir-484;AEKR01206416.1/2916-2850
+## 4 seq_162056863_x28478    RF00783;mir-484;AEKR01206416.1/2916-2850
+## 5 seq_167564473_x21752 RF01942;mir-1937;CAAA01156883.1/50076-50196
+## 6 seq_167564473_x21752     RF01942;mir-1937;AAHY01278511.1/601-482
 ##   perc_identical length mismatch gapopen query_start query_end dbseq_start
-## 1            100     22        0       0           1        22          61
+## 1            100     22        0       0           1        22           5
 ## 2            100     22        0       0           1        22           5
-## 3            100     22        0       0           1        22           5
+## 3            100     21        0       0           1        21           5
 ## 4            100     23        0       0           1        23           5
-## 5            100     25        0       0           1        25         844
-## 6            100     24        0       0           1        24         845
-##   dbseq_end evalue bitscore rfam_accession     rfam_biotype
-## 1        82  4e-07     44.1        RF00683          mir-143
-## 2        26  4e-07     44.1        RF00783          mir-484
-## 3        26  4e-07     44.1        RF00783          mir-484
-## 4        27  1e-07     46.1        RF00783          mir-484
-## 5       868  8e-09     50.1        RF01960 SSU_rRNA_eukarya
-## 6       868  3e-08     48.1        RF01960 SSU_rRNA_eukarya
-##       rfam_seqnamestartend
-## 1 AEKR01113265.1/9034-8929
-## 2 AEKR01206416.1/2916-2850
-## 3 AEKR01206416.1/2916-2850
-## 4 AEKR01206416.1/2916-2850
-## 5   CT010467.6/67702-65856
-## 6   CT010467.6/67702-65856
+## 5            100     20        0       0           3        22          27
+## 6            100     20        0       0           3        22          19
+##   dbseq_end evalue bitscore rfam_accession rfam_biotype
+## 1        26  4e-07     44.1        RF00783      mir-484
+## 2        26  4e-07     44.1        RF00783      mir-484
+## 3        25  1e-06     42.1        RF00783      mir-484
+## 4        27  1e-07     46.1        RF00783      mir-484
+## 5        46  6e-06     40.1        RF01942     mir-1937
+## 6        38  6e-06     40.1        RF01942     mir-1937
+##         rfam_seqnamestartend
+## 1   AEKR01206416.1/2916-2850
+## 2   AEKR01206416.1/2916-2850
+## 3   AEKR01206416.1/2916-2850
+## 4   AEKR01206416.1/2916-2850
+## 5 CAAA01156883.1/50076-50196
+## 6     AAHY01278511.1/601-482
 ```
 
 The number of unique sequences with mus musculus Rfam hits in this dataset
@@ -171,7 +175,7 @@ length(unique(mmu$query_id))
 ```
 
 ```
-## [1] 14134
+## [1] 17078
 ```
 
 Create a subset data frame containing the pertinent information for filtering
@@ -183,7 +187,7 @@ dim(rfamsubset)
 ```
 
 ```
-## [1] 20788     6
+## [1] 27267     6
 ```
 
 ```r
@@ -191,20 +195,20 @@ head(rfamsubset)
 ```
 
 ```
-##                query_id perc_identical evalue bitscore rfam_accession
-## 1 seq_125916817_x153124            100  4e-07     44.1        RF00683
-## 2  seq_137069853_x95209            100  4e-07     44.1        RF00783
-## 3  seq_144363225_x67330            100  4e-07     44.1        RF00783
-## 4  seq_162056863_x28478            100  1e-07     46.1        RF00783
-## 5  seq_164216929_x25364            100  8e-09     50.1        RF01960
-## 6  seq_165552505_x23995            100  3e-08     48.1        RF01960
-##       rfam_biotype
-## 1          mir-143
-## 2          mir-484
-## 3          mir-484
-## 4          mir-484
-## 5 SSU_rRNA_eukarya
-## 6 SSU_rRNA_eukarya
+##               query_id perc_identical evalue bitscore rfam_accession
+## 1 seq_137069853_x95209            100  4e-07     44.1        RF00783
+## 2 seq_144363225_x67330            100  4e-07     44.1        RF00783
+## 3 seq_157575655_x34724            100  1e-06     42.1        RF00783
+## 4 seq_162056863_x28478            100  1e-07     46.1        RF00783
+## 5 seq_167564473_x21752            100  6e-06     40.1        RF01942
+## 6 seq_167564473_x21752            100  6e-06     40.1        RF01942
+##   rfam_biotype
+## 1      mir-484
+## 2      mir-484
+## 3      mir-484
+## 4      mir-484
+## 5     mir-1937
+## 6     mir-1937
 ```
 
 Create an index of the sequences to filter through
@@ -219,7 +223,7 @@ idx <- mclapply(unique(rfamsubset$query_id), function(x)
 
 ```
 ##    user  system elapsed 
-##  55.199   0.307   9.424
+##  97.354   0.382  14.276
 ```
 
 ```r
@@ -227,7 +231,7 @@ length(idx)
 ```
 
 ```
-## [1] 14134
+## [1] 17078
 ```
 
 Function to filter multiple Rfam blast hits per sequence
@@ -270,7 +274,7 @@ stp1 <- mclapply(idx, filter, mc.cores=10)
 
 ```
 ##    user  system elapsed 
-##   2.109   0.120   0.621
+##   3.617   0.176   0.733
 ```
 
 ```r
@@ -278,7 +282,7 @@ length(stp1)
 ```
 
 ```
-## [1] 14134
+## [1] 17078
 ```
 
 ```r
@@ -287,20 +291,20 @@ head(stp1)
 
 ```
 ## [[1]]
-##                query_id perc_identical evalue bitscore rfam_accession
-## 1 seq_125916817_x153124            100  4e-07     44.1        RF00683
+##               query_id perc_identical evalue bitscore rfam_accession
+## 1 seq_137069853_x95209            100  4e-07     44.1        RF00783
 ##   rfam_biotype
-## 1      mir-143
+## 1      mir-484
 ## 
 ## [[2]]
 ##               query_id perc_identical evalue bitscore rfam_accession
-## 2 seq_137069853_x95209            100  4e-07     44.1        RF00783
+## 2 seq_144363225_x67330            100  4e-07     44.1        RF00783
 ##   rfam_biotype
 ## 2      mir-484
 ## 
 ## [[3]]
 ##               query_id perc_identical evalue bitscore rfam_accession
-## 3 seq_144363225_x67330            100  4e-07     44.1        RF00783
+## 3 seq_157575655_x34724            100  1e-06     42.1        RF00783
 ##   rfam_biotype
 ## 3      mir-484
 ## 
@@ -312,15 +316,21 @@ head(stp1)
 ## 
 ## [[5]]
 ##               query_id perc_identical evalue bitscore rfam_accession
-## 5 seq_164216929_x25364            100  8e-09     50.1        RF01960
-##       rfam_biotype
-## 5 SSU_rRNA_eukarya
+## 5 seq_167564473_x21752            100  6e-06     40.1        RF01942
+## 6 seq_167564473_x21752            100  6e-06     40.1        RF01942
+## 7 seq_167564473_x21752            100  6e-06     40.1        RF01942
+## 8 seq_167564473_x21752            100  6e-06     40.1        RF01942
+##   rfam_biotype
+## 5     mir-1937
+## 6     mir-1937
+## 7     mir-1937
+## 8     mir-1937
 ## 
 ## [[6]]
 ##               query_id perc_identical evalue bitscore rfam_accession
-## 6 seq_165552505_x23995            100  3e-08     48.1        RF01960
+## 9 seq_169281334_x19740            100  3e-08     48.1        RF01960
 ##       rfam_biotype
-## 6 SSU_rRNA_eukarya
+## 9 SSU_rRNA_eukarya
 ```
 
 ```r
@@ -330,39 +340,47 @@ tail(stp1)
 ```
 ## [[1]]
 ##               query_id perc_identical evalue bitscore rfam_accession
-## 20782 seq_227422184_x2          96.55  1e-08     50.1        RF01960
-##           rfam_biotype
-## 20782 SSU_rRNA_eukarya
+## 27258 seq_227423612_x2            100  6e-06     40.1        RF01942
+## 27259 seq_227423612_x2            100  6e-06     40.1        RF01942
+## 27260 seq_227423612_x2            100  6e-06     40.1        RF01942
+## 27261 seq_227423612_x2            100  6e-06     40.1        RF01942
+##       rfam_biotype
+## 27258     mir-1937
+## 27259     mir-1937
+## 27260     mir-1937
+## 27261     mir-1937
 ## 
 ## [[2]]
 ##               query_id perc_identical evalue bitscore rfam_accession
-## 20783 seq_227422198_x2          93.33  7e-07     44.1        RF00005
-##       rfam_biotype
-## 20783         tRNA
+## 27262 seq_227423696_x2            100  6e-06     40.1        RF01960
+##           rfam_biotype
+## 27262 SSU_rRNA_eukarya
 ## 
 ## [[3]]
 ##               query_id perc_identical evalue bitscore rfam_accession
-## 20784 seq_227422454_x2          96.15  5e-07     44.1        RF01960
+## 27263 seq_227423936_x2             96  2e-06     42.1        RF01960
 ##           rfam_biotype
-## 20784 SSU_rRNA_eukarya
+## 27263 SSU_rRNA_eukarya
 ## 
 ## [[4]]
 ##               query_id perc_identical evalue bitscore rfam_accession
-## 20785 seq_227423370_x2           96.3  1e-07     46.1        RF01960
-##           rfam_biotype
-## 20785 SSU_rRNA_eukarya
+## 27264 seq_227424478_x2            100  7e-06     40.1        RF00783
+##       rfam_biotype
+## 27264      mir-484
 ## 
 ## [[5]]
 ##               query_id perc_identical evalue bitscore rfam_accession
-## 20786 seq_227423398_x2          96.43  4e-08     48.1        RF01960
+## 27265 seq_227424846_x2             96  2e-06     42.1        RF01960
+## 27266 seq_227424846_x2             96  2e-06     42.1        RF01960
 ##           rfam_biotype
-## 20786 SSU_rRNA_eukarya
+## 27265 SSU_rRNA_eukarya
+## 27266 SSU_rRNA_eukarya
 ## 
 ## [[6]]
 ##               query_id perc_identical evalue bitscore rfam_accession
-## 20787 seq_227424182_x2          96.43  4e-08     48.1        RF00005
-##       rfam_biotype
-## 20787         tRNA
+## 27267 seq_227425450_x2            100  2e-06     42.1        RF01960
+##           rfam_biotype
+## 27267 SSU_rRNA_eukarya
 ```
 
 How many sequences have more than one annotation after the filtering
@@ -374,7 +392,7 @@ length(stp2)
 ```
 
 ```
-## [1] 4332
+## [1] 5327
 ```
 
 ```r
@@ -383,8 +401,8 @@ table(unlist(lapply(stp2,nrow)))
 
 ```
 ## 
-##    2    3    4    5    6    7    8    9   11   12   13   14 
-## 4115  128   48    9    2    1    3    4    1   12    8    1
+##    2    3    4    5    6    7    8    9   10   12   13   14   15   23 
+## 4911  244   96   19    6    5   16    5    3    3    9    5    1    4
 ```
 
 ```r
@@ -394,7 +412,7 @@ filter2 <- filter <- function(seqblast){
                         return(seqblast)
         }
 # Select sequence with greatest percent match to blast hit
-        ident <- seqblast[seqblast$pident == max(seqblast$pident),]
+        ident <- seqblast[seqblast$perc_identical == max(seqblast$perc_identical),]
                 if (nrow(ident) == 1){
                         return(ident)
         }
@@ -414,7 +432,7 @@ stp3 <- mclapply(stp1, filter2, mc.cores=10)
 
 ```
 ##    user  system elapsed 
-##   1.899   0.186   0.445
+##   1.411   0.173   0.379
 ```
 
 How many sequences have more than one annotation after the second filtering
@@ -433,222 +451,208 @@ Summary file of small RNA sequence ensembl blast results
 
 
 ```r
-sumblast4 <- do.call(rbind,stp3)
-head(sumblast4)
+sumblast5 <- do.call(rbind,stp3)
+head(sumblast5)
 ```
 
 ```
-##                query_id perc_identical evalue bitscore rfam_accession
-## 1 seq_125916817_x153124            100  4e-07     44.1        RF00683
-## 2  seq_137069853_x95209            100  4e-07     44.1        RF00783
-## 3  seq_144363225_x67330            100  4e-07     44.1        RF00783
-## 4  seq_162056863_x28478            100  1e-07     46.1        RF00783
-## 5  seq_164216929_x25364            100  8e-09     50.1        RF01960
-## 6  seq_165552505_x23995            100  3e-08     48.1        RF01960
+##               query_id perc_identical evalue bitscore rfam_accession
+## 1 seq_137069853_x95209            100  4e-07     44.1        RF00783
+## 2 seq_144363225_x67330            100  4e-07     44.1        RF00783
+## 3 seq_157575655_x34724            100  1e-06     42.1        RF00783
+## 4 seq_162056863_x28478            100  1e-07     46.1        RF00783
+## 5 seq_167564473_x21752            100  6e-06     40.1        RF01942
+## 9 seq_169281334_x19740            100  3e-08     48.1        RF01960
 ##       rfam_biotype
-## 1          mir-143
+## 1          mir-484
 ## 2          mir-484
 ## 3          mir-484
 ## 4          mir-484
-## 5 SSU_rRNA_eukarya
-## 6 SSU_rRNA_eukarya
+## 5         mir-1937
+## 9 SSU_rRNA_eukarya
 ```
 
 ```r
-dim(sumblast4)
+dim(sumblast5)
 ```
 
 ```
-## [1] 14134     6
-```
-
-```r
-length(unique(sumblast4$query_id))
-```
-
-```
-## [1] 14134
+## [1] 17078     6
 ```
 
 ```r
-table(sumblast4$rfam_biotype)
+length(unique(sumblast5$query_id))
+```
+
+```
+## [1] 17078
+```
+
+```r
+table(sumblast5$rfam_biotype)
 ```
 
 ```
 ## 
-##        5_8S_rRNA          5S_rRNA         Histone3       IRES_L-myc 
-##               38               85                8                2 
-##      Metazoa_SRP          mir-101          mir-143          mir-146 
-##                3                6               49               18 
-##          mir-150           mir-17          mir-188          mir-193 
-##                2                4                2                1 
-##         mir-1937          mir-194           mir-21          mir-299 
-##              114                1               19               20 
-##          mir-374          mir-484          mir-503          mir-598 
-##                1              229               87               10 
-##          mir-689           mir-92          SNORA28          SNORA73 
-##                4               30               13                4 
-##          SNORD58           snoU85 SSU_rRNA_eukarya             tRNA 
-##                1               37            11557             1777 
-##               U1               U2               U6            Y_RNA 
-##                1                6                1                4
+##        5_8S_rRNA          5S_rRNA              7SK         Histone3 
+##               51               99                9               37 
+##       IRES_L-myc      Metazoa_SRP          mir-101          mir-192 
+##               11                9               13                1 
+##          mir-193         mir-1937          mir-299          mir-484 
+##                2              393                2              554 
+##          mir-598          mir-628          mir-689          SECIS_1 
+##               12                1                4                1 
+##          SNORA21          SNORA28          SNORA73          SNORA74 
+##                1               19                9                1 
+##          SNORD58          SNORD91           snoU85 SSU_rRNA_eukarya 
+##                2                4               65            13397 
+##             tRNA               U1               U2               U6 
+##             2363                8                7                1 
+##             XIST            Y_RNA 
+##                1                1
 ```
 
 ```r
-uniqsumblast4<-as.data.frame(table(sumblast4$rfam_biotype))
-colnames(uniqsumblast4)<-c("Gene_Biotype", "Freq")
-uniqsumblast4
+uniqsumblast5<-as.data.frame(table(sumblast5$rfam_biotype))
+colnames(uniqsumblast5)<-c("Gene_Biotype", "Freq")
+uniqsumblast5
 ```
 
 ```
 ##        Gene_Biotype  Freq
-## 1         5_8S_rRNA    38
-## 2           5S_rRNA    85
-## 3          Histone3     8
-## 4        IRES_L-myc     2
-## 5       Metazoa_SRP     3
-## 6           mir-101     6
-## 7           mir-143    49
-## 8           mir-146    18
-## 9           mir-150     2
-## 10           mir-17     4
-## 11          mir-188     2
-## 12          mir-193     1
-## 13         mir-1937   114
-## 14          mir-194     1
-## 15           mir-21    19
-## 16          mir-299    20
-## 17          mir-374     1
-## 18          mir-484   229
-## 19          mir-503    87
-## 20          mir-598    10
-## 21          mir-689     4
-## 22           mir-92    30
-## 23          SNORA28    13
-## 24          SNORA73     4
-## 25          SNORD58     1
-## 26           snoU85    37
-## 27 SSU_rRNA_eukarya 11557
-## 28             tRNA  1777
-## 29               U1     1
-## 30               U2     6
-## 31               U6     1
-## 32            Y_RNA     4
+## 1         5_8S_rRNA    51
+## 2           5S_rRNA    99
+## 3               7SK     9
+## 4          Histone3    37
+## 5        IRES_L-myc    11
+## 6       Metazoa_SRP     9
+## 7           mir-101    13
+## 8           mir-192     1
+## 9           mir-193     2
+## 10         mir-1937   393
+## 11          mir-299     2
+## 12          mir-484   554
+## 13          mir-598    12
+## 14          mir-628     1
+## 15          mir-689     4
+## 16          SECIS_1     1
+## 17          SNORA21     1
+## 18          SNORA28    19
+## 19          SNORA73     9
+## 20          SNORA74     1
+## 21          SNORD58     2
+## 22          SNORD91     4
+## 23           snoU85    65
+## 24 SSU_rRNA_eukarya 13397
+## 25             tRNA  2363
+## 26               U1     8
+## 27               U2     7
+## 28               U6     1
+## 29             XIST     1
+## 30            Y_RNA     1
 ```
 
 Add the column of sequence count to the sumblast data frame
 
 
 ```r
-sumblast4$seq_count<-as.numeric(str_split_fixed(sumblast4$query_id, "_x", 2)[,2])
-head(sumblast4)
+sumblast5$seq_count<-as.numeric(str_split_fixed(sumblast5$query_id, "_x", 2)[,2])
+head(sumblast5)
 ```
 
 ```
-##                query_id perc_identical evalue bitscore rfam_accession
-## 1 seq_125916817_x153124            100  4e-07     44.1        RF00683
-## 2  seq_137069853_x95209            100  4e-07     44.1        RF00783
-## 3  seq_144363225_x67330            100  4e-07     44.1        RF00783
-## 4  seq_162056863_x28478            100  1e-07     46.1        RF00783
-## 5  seq_164216929_x25364            100  8e-09     50.1        RF01960
-## 6  seq_165552505_x23995            100  3e-08     48.1        RF01960
+##               query_id perc_identical evalue bitscore rfam_accession
+## 1 seq_137069853_x95209            100  4e-07     44.1        RF00783
+## 2 seq_144363225_x67330            100  4e-07     44.1        RF00783
+## 3 seq_157575655_x34724            100  1e-06     42.1        RF00783
+## 4 seq_162056863_x28478            100  1e-07     46.1        RF00783
+## 5 seq_167564473_x21752            100  6e-06     40.1        RF01942
+## 9 seq_169281334_x19740            100  3e-08     48.1        RF01960
 ##       rfam_biotype seq_count
-## 1          mir-143    153124
-## 2          mir-484     95209
-## 3          mir-484     67330
+## 1          mir-484     95209
+## 2          mir-484     67330
+## 3          mir-484     34724
 ## 4          mir-484     28478
-## 5 SSU_rRNA_eukarya     25364
-## 6 SSU_rRNA_eukarya     23995
+## 5         mir-1937     21752
+## 9 SSU_rRNA_eukarya     19740
 ```
 
 Use the "by" function to sum the sequence counts by their gene biotypes
 
 
 ```r
-totalsumbiotype4<-as.matrix(by(sumblast4$seq_count, sumblast4$rfam_biotype, sum))
-totalsumbiotype4
+totalsumbiotype5<-as.matrix(by(sumblast5$seq_count, sumblast5$rfam_biotype, sum))
+totalsumbiotype5
 ```
 
 ```
 ##                    [,1]
-## 5_8S_rRNA          2105
-## 5S_rRNA            1341
-## Histone3             47
-## IRES_L-myc            7
-## Metazoa_SRP           8
-## mir-101             465
-## mir-143          168068
-## mir-146             182
-## mir-150              54
-## mir-17               43
-## mir-188              38
-## mir-193               9
-## mir-1937           5336
-## mir-194               7
-## mir-21              997
-## mir-299            5607
-## mir-374               3
-## mir-484          220533
-## mir-503           24682
-## mir-598              25
-## mir-689             122
-## mir-92            13510
-## SNORA28             188
-## SNORA73              17
-## SNORD58               3
-## snoU85              507
-## SSU_rRNA_eukarya 582009
-## tRNA             124439
-## U1                    4
-## U2                   18
+## 5_8S_rRNA          3066
+## 5S_rRNA            2387
+## 7SK                  30
+## Histone3            322
+## IRES_L-myc           63
+## Metazoa_SRP          54
+## mir-101             341
+## mir-192               2
+## mir-193               4
+## mir-1937          51215
+## mir-299               7
+## mir-484          291492
+## mir-598              29
+## mir-628               2
+## mir-689              50
+## SECIS_1               3
+## SNORA21               2
+## SNORA28             253
+## SNORA73              39
+## SNORA74               2
+## SNORD58               9
+## SNORD91              22
+## snoU85              789
+## SSU_rRNA_eukarya 618355
+## tRNA              95734
+## U1                   21
+## U2                   29
 ## U6                    2
-## Y_RNA                 8
+## XIST                  2
+## Y_RNA                 2
 ```
 
 ```r
-if (sum(rownames(totalsumbiotype4) != uniqsumblast4$Gene_Biotype)) stop ("Gene_Biotypes not equal")
+if (sum(rownames(totalsumbiotype5) != uniqsumblast5$Gene_Biotype)) stop ("Gene_Biotypes not equal")
 ```
 
 As a check, manually sum the 5s_rRNAs and the tRNA fields:
 
 
 ```r
-sum(sumblast4$seq_count[sumblast4$rfam_biotype == "5S_rRNA"])
+sum(sumblast5$seq_count[sumblast5$rfam_biotype == "5S_rRNA"])
 ```
 
 ```
-## [1] 1341
-```
-
-```r
-sum(sumblast4$seq_count[sumblast4$rfam_biotype == "tRNA"])
-```
-
-```
-## [1] 124439
+## [1] 2387
 ```
 
 ```r
-if (sum(sumblast4$seq_count[sumblast4$rfam_biotype == "5S_rRNA"]) != totalsumbiotype4["5S_rRNA",]) stop ("5S_rRNA counts not equal")
-if (sum(sumblast4$seq_count[sumblast4$rfam_biotype == "tRNA"]) != totalsumbiotype4["tRNA",]) stop ("tRNA counts not equal")
+sum(sumblast5$seq_count[sumblast5$rfam_biotype == "tRNA"])
+```
+
+```
+## [1] 95734
+```
+
+```r
+if (sum(sumblast5$seq_count[sumblast5$rfam_biotype == "5S_rRNA"]) != totalsumbiotype5["5S_rRNA",]) stop ("5S_rRNA counts not equal")
+if (sum(sumblast5$seq_count[sumblast5$rfam_biotype == "tRNA"]) != totalsumbiotype5["tRNA",]) stop ("tRNA counts not equal")
 ```
 
 ## Save data
 
 
 ```r
-save(sumblast4, uniqsumblast4, totalsumbiotype4, file=("/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/8_musmusculus_filtered_rfam_blastn_results.Rdata"))
-write.csv(uniqsumblast4, file="/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/8_1_musmusculus_filtered_uniqseq_rfam_blastn_results.csv", col.names=TRUE)
-```
-
-```
-## Warning in write.csv(uniqsumblast4, file = "/mnt/research/pigeqtl/analyses/
-## microRNA/2_mirna_characterization_expression/0_rfam_database_query/
-## 8_1_musmusculus_filtered_uniqseq_rfam_blastn_results.csv", : attempt to set
-## 'col.names' ignored
-```
-
-```r
-write.csv(totalsumbiotype4, file="/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/8_2_musmusculus_filtered_totseq_rfam_blastn_results.csv", row.names=TRUE)
+save(sumblast5, uniqsumblast5, totalsumbiotype5, file=("/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/4a_musmusculus_filtered_rfam_blastn_results.Rdata"))
+write.csv(uniqsumblast5, file="/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/4b_musmusculus_filtered_uniqseq_rfam_blastn_results.csv")
+write.csv(totalsumbiotype5, file="/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/4c_musmusculus_filtered_totseq_rfam_blastn_results.csv", row.names=TRUE)
 ```
 

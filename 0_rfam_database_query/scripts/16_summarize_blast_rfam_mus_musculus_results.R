@@ -2,15 +2,19 @@
 #' 
 #' **Directory of Code:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts`
 #' 
-#' **Date:**  7/7/16
+#' **Date:**  7/13/16
 #' 
 #' **Input File Directory:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/`
 #' 
-#' **Input File(s):** `4_musmusculus_rfam_blastn_output_e6.txt`
+#' **Input File(s):** `4_musmusculus_rfam_blastn_output_e5.txt`
 #' 
 #' **Output File Directory:** `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/`
 #' 
-#' **Output File(s):** `8_musmusculus_filtered_rfam_blastn_results.Rdata`
+#' **Output File(s):** 
+#' 
+#' 1. `4a_musmusculus_filtered_rfam_blastn_results.Rdata`
+#' 2. `4b_musmusculus_filtered_uniqseq_rfam_blastn_results.csv`
+#' 3. `4c_musmusculus_filtered_totseq_rfam_blastn_results.csv`
 #' 
 #' **Table of contents:**
 #'
@@ -42,7 +46,7 @@ rm(list=ls())
 setwd("/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts")
 
 system.time({
-mmu<-read.table("../4_musmusculus_rfam_blastn_output_e6.txt", header=FALSE, sep="", col.names=c("query_id","dbseq_id","perc_identical","length","mismatch","gapopen","query_start","query_end","dbseq_start","dbseq_end","evalue","bitscore"))
+mmu<-read.table("../4_musmusculus_rfam_blastn_output_e5.txt", header=FALSE, sep="", col.names=c("query_id","dbseq_id","perc_identical","length","mismatch","gapopen","query_start","query_end","dbseq_start","dbseq_end","evalue","bitscore"))
 })
 
 dim(mmu)
@@ -121,7 +125,7 @@ filter2 <- filter <- function(seqblast){
                         return(seqblast)
         }
 # Select sequence with greatest percent match to blast hit
-        ident <- seqblast[seqblast$pident == max(seqblast$pident),]
+        ident <- seqblast[seqblast$perc_identical == max(seqblast$perc_identical),]
                 if (nrow(ident) == 1){
                         return(ident)
         }
@@ -139,36 +143,36 @@ stp4 <- stp3[unlist(lapply(stp3,nrow)) > 1]
 length(stp4)
 
 #' Summary file of small RNA sequence ensembl blast results
-sumblast4 <- do.call(rbind,stp3)
-head(sumblast4)
-dim(sumblast4)
-length(unique(sumblast4$query_id))
+sumblast5 <- do.call(rbind,stp3)
+head(sumblast5)
+dim(sumblast5)
+length(unique(sumblast5$query_id))
 
-table(sumblast4$rfam_biotype)
+table(sumblast5$rfam_biotype)
 
-uniqsumblast4<-as.data.frame(table(sumblast4$rfam_biotype))
-colnames(uniqsumblast4)<-c("Gene_Biotype", "Freq")
-uniqsumblast4
+uniqsumblast5<-as.data.frame(table(sumblast5$rfam_biotype))
+colnames(uniqsumblast5)<-c("Gene_Biotype", "Freq")
+uniqsumblast5
 
 #' Add the column of sequence count to the sumblast data frame
-sumblast4$seq_count<-as.numeric(str_split_fixed(sumblast4$query_id, "_x", 2)[,2])
-head(sumblast4)
+sumblast5$seq_count<-as.numeric(str_split_fixed(sumblast5$query_id, "_x", 2)[,2])
+head(sumblast5)
 
 #' Use the "by" function to sum the sequence counts by their gene biotypes
-totalsumbiotype4<-as.matrix(by(sumblast4$seq_count, sumblast4$rfam_biotype, sum))
-totalsumbiotype4
+totalsumbiotype5<-as.matrix(by(sumblast5$seq_count, sumblast5$rfam_biotype, sum))
+totalsumbiotype5
 
-if (sum(rownames(totalsumbiotype4) != uniqsumblast4$Gene_Biotype)) stop ("Gene_Biotypes not equal")
+if (sum(rownames(totalsumbiotype5) != uniqsumblast5$Gene_Biotype)) stop ("Gene_Biotypes not equal")
 
 #' As a check, manually sum the 5s_rRNAs and the tRNA fields:
-sum(sumblast4$seq_count[sumblast4$rfam_biotype == "5S_rRNA"])
+sum(sumblast5$seq_count[sumblast5$rfam_biotype == "5S_rRNA"])
 
-sum(sumblast4$seq_count[sumblast4$rfam_biotype == "tRNA"])
+sum(sumblast5$seq_count[sumblast5$rfam_biotype == "tRNA"])
 
-if (sum(sumblast4$seq_count[sumblast4$rfam_biotype == "5S_rRNA"]) != totalsumbiotype4["5S_rRNA",]) stop ("5S_rRNA counts not equal")
-if (sum(sumblast4$seq_count[sumblast4$rfam_biotype == "tRNA"]) != totalsumbiotype4["tRNA",]) stop ("tRNA counts not equal")
+if (sum(sumblast5$seq_count[sumblast5$rfam_biotype == "5S_rRNA"]) != totalsumbiotype5["5S_rRNA",]) stop ("5S_rRNA counts not equal")
+if (sum(sumblast5$seq_count[sumblast5$rfam_biotype == "tRNA"]) != totalsumbiotype5["tRNA",]) stop ("tRNA counts not equal")
 
 #' ## Save data
-save(sumblast4, uniqsumblast4, totalsumbiotype4, file=("/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/8_musmusculus_filtered_rfam_blastn_results.Rdata"))
-write.csv(uniqsumblast4, file="/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/8_1_musmusculus_filtered_uniqseq_rfam_blastn_results.csv", col.names=TRUE)
-write.csv(totalsumbiotype4, file="/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/8_2_musmusculus_filtered_totseq_rfam_blastn_results.csv", row.names=TRUE)
+save(sumblast5, uniqsumblast5, totalsumbiotype5, file=("/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/4a_musmusculus_filtered_rfam_blastn_results.Rdata"))
+write.csv(uniqsumblast5, file="/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/4b_musmusculus_filtered_uniqseq_rfam_blastn_results.csv")
+write.csv(totalsumbiotype5, file="/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/4c_musmusculus_filtered_totseq_rfam_blastn_results.csv", row.names=TRUE)

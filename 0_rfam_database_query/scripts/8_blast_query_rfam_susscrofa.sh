@@ -1,5 +1,5 @@
 #!/bin/sh  -login
-#PBS -l nodes=1:ppn=9,walltime=02:00:00,mem=5Gb
+#PBS -l nodes=1:ppn=9,walltime=01:00:00,mem=3Gb
 #PBS -N blastn_susscrofa_rfam_query
 #PBS -j oe
 #PBS -o /mnt/research/pigeqtl/analyses/microRNA/OutputsErrors/
@@ -10,15 +10,15 @@
 #' 
 #' **Directory of Code:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts`
 #' 
-#' **Date:**  `5/31/16`
+#' **Date:**  `7/12/16`
 #' 
 #' **Input File Directory:**  `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/`
 #' 
-#' **Input File(s):** `174_library_nonensembl_uniq_seq.fa`
+#' **Input File(s):** `174_library_susscrofa_rfam_blast_input_uniq_seq.fa`
 #' 
 #' **Output File Directory:** `/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/`
 #' 
-#' **Output File(s):** `2_susscrofa_rfam_blastn_output_e6.txt`
+#' **Output File(s):** `2_susscrofa_rfam_blastn_output_e5.txt`
 #' 
 #' **Table of contents:**
 #'
@@ -30,9 +30,9 @@
 #' ## Objectives
 #' 
 #' The objective of this script is to utilize BLAST+ to characterize the ncRNA species (tRNA, sn/snoRNA, miRNA, etc) present in the small RNA seq dataset.
-#' The databases used for this query were created from the Ensembl Sus Scrofa (10.2) ncRNA database, and the Rfam database version 11.0.
+#' The databases used for this query were created from the Sus scrofa miRBase (release 21), the Ensembl Sus Scrofa (10.2) ncRNA database, and the Rfam database version 11.0.
 #' See script /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/scripts/4_download_ensembl_rfam_build_blastdb.sh for code building those databases.
-#' First, the sequences will be blasted against the Sus scrofa Ensembl noncoding sequences, then move sequentially to the Sus scrofa, Homo sapiens, and Mus musculus Rfam sequences. 
+#' First, the sequences will be blasted against the Sus scrofa miRBase database, the Ensembl noncoding sequences, and then move sequentially to the Sus scrofa, Homo sapiens, and Mus musculus Rfam sequences. 
 #' 
 #' ## Install libraries
 module load BLAST+/2.2.30
@@ -42,7 +42,7 @@ module load BLAST+/2.2.30
 cd /mnt/research/pigeqtl/analyses/microRNA/reference_sequences/
 
 #' 
-#' BLASTing the small RNAseq unique sequences (~6.8 million sequences) against the Sus scrofa Rfam and Ensembl databases:
+#' BLASTing the small RNAseq unique sequences (expressed > 1 time) against the Sus scrofa miRBase, Ensembl, and Rfam databases:
 #' 
 #' Parameters used: (See websites http://www.ncbi.nlm.nih.gov/BLAST/Why.shtml, http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=FAQ, and documentation http://www.ncbi.nlm.nih.gov/books/NBK279690/ for details)
 #' 
@@ -64,12 +64,12 @@ cd /mnt/research/pigeqtl/analyses/microRNA/reference_sequences/
 #' The "expect value" is a parameter describing the number of hits one could expect "by chance" when searching a database of a particular size. Essentially, it describes the random background noise.
 #' 
 #' "For example, an E value of 1 assigned to a hit can be interpreted as meaning that in a database of the current size one might expect to see 1 match with a similar score simply by chance."
-#' So, for this analysis, the e-value threshold is set to 0.000001, meaning we can expect that a hit with that e-value would have 0.000001 match with a similar score by chance.
+#' So, for this analysis, the e-value threshold is set to 0.00001, meaning we can expect that a hit with that e-value would have 0.00001 match with a similar score by chance.
 #' The lower the e-value, the more "significant" the match is. 
 
 #' 
 #' Tabular results:
-blastn -query /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/174_library_nonensembl_uniq_seq.fa -task blastn-short -db /mnt/research/pigeqtl/analyses/microRNA/reference_sequences/"Susscrofa_Rfam_seq.fa" -out /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/2_susscrofa_rfam_blastn_output_e6.txt -evalue 0.000001 -outfmt 6 -num_threads 8
+blastn -query /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/174_library_susscrofa_rfam_blast_input_uniq_seq.fa -task blastn-short -db /mnt/research/pigeqtl/analyses/microRNA/reference_sequences/"Susscrofa_Rfam_seq.fa" -out /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/0_rfam_database_query/2_susscrofa_rfam_blastn_output_e5.txt -evalue 0.00001 -outfmt 6 -num_threads 8
 
 qstat -f ${PBS_JOBID}
 

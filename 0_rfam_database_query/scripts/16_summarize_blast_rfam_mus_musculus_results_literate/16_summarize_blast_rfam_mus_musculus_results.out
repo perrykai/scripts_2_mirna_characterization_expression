@@ -92,36 +92,36 @@ label: unnamed-chunk-17
 
 output file: 16_summarize_blast_rfam_mus_musculus_results.md
 
-Job Id: 33657127.mgr-04.i
+Job Id: 33787552.mgr-04.i
     Job_Name = 16_summarize_blast_rfam_mus_musculus_results
     Job_Owner = perrykai@dev-intel14-phi.i
     job_state = R
     queue = main
     server = mgr-04.i
     Checkpoint = u
-    ctime = Thu Jul  7 15:44:07 2016
+    ctime = Wed Jul 13 15:48:02 2016
     Error_Path = dev-intel14-phi:/mnt/research/pigeqtl/analyses/microRNA/2_mir
 	na_characterization_expression/0_rfam_database_query/scripts/16_summar
 	ize_blast_rfam_mus_musculus_results_literate/16_summarize_blast_rfam_m
 	us_musculus_results.out
-    exec_host = csp-009/14
+    exec_host = csp-018/3
     Hold_Types = n
     Join_Path = oe
     Keep_Files = n
     Mail_Points = abe
-    mtime = Thu Jul  7 15:51:13 2016
+    mtime = Wed Jul 13 15:48:55 2016
     Output_Path = dev-intel14-phi:/mnt/research/pigeqtl/analyses/microRNA/2_mi
 	rna_characterization_expression/0_rfam_database_query/scripts/16_summa
 	rize_blast_rfam_mus_musculus_results_literate/16_summarize_blast_rfam_
 	mus_musculus_results.out
     Priority = 0
-    qtime = Thu Jul  7 15:44:07 2016
+    qtime = Wed Jul 13 15:48:02 2016
     Rerunable = False
-    Resource_List.mem = 5gb
+    Resource_List.mem = 3gb
     Resource_List.nodect = 1
     Resource_List.nodes = 1:ppn=1:intel14-phi
     Resource_List.walltime = 00:20:00
-    session_id = 110109
+    session_id = 60016
     Variable_List = PBS_O_QUEUE=main,PBS_O_HOME=/mnt/home/perrykai,
 	PBS_O_LOGNAME=perrykai,
 	PBS_O_PATH=/opt/software/R/3.1.0--GCC-4.4.5/bin:/opt/software/powerto
@@ -138,10 +138,10 @@ Job Id: 33657127.mgr-04.i
     euser = perrykai
     egroup = gene-expression
     queue_type = E
-    etime = Thu Jul  7 15:44:07 2016
+    etime = Wed Jul 13 15:48:02 2016
     submit_args = base.sh
-    start_time = Thu Jul  7 15:51:13 2016
-    Walltime.Remaining = 1174
+    start_time = Wed Jul 13 15:48:55 2016
+    Walltime.Remaining = 1164
     start_count = 1
     fault_tolerant = False
     job_radix = 0
