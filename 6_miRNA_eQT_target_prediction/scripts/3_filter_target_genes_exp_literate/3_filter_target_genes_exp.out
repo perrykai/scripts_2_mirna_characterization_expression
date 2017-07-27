@@ -1,0 +1,133 @@
+
+
+processing file: 3_filter_target_genes_exp.Rmd
+  |                                                                         |                                                                 |   0%  |                                                                         |..                                                               |   4%
+  ordinary text without R code
+
+  |                                                                         |.....                                                            |   7%
+label: unnamed-chunk-1
+  |                                                                         |.......                                                          |  11%
+  ordinary text without R code
+
+  |                                                                         |..........                                                       |  15%
+label: unnamed-chunk-2
+  |                                                                         |............                                                     |  19%
+  ordinary text without R code
+
+  |                                                                         |..............                                                   |  22%
+label: unnamed-chunk-3
+  |                                                                         |.................                                                |  26%
+  ordinary text without R code
+
+  |                                                                         |...................                                              |  30%
+label: unnamed-chunk-4
+  |                                                                         |......................                                           |  33%
+  ordinary text without R code
+
+  |                                                                         |........................                                         |  37%
+label: unnamed-chunk-5
+  |                                                                         |..........................                                       |  41%
+  ordinary text without R code
+
+  |                                                                         |.............................                                    |  44%
+label: unnamed-chunk-6
+  |                                                                         |...............................                                  |  48%
+  ordinary text without R code
+
+  |                                                                         |..................................                               |  52%
+label: unnamed-chunk-7
+  |                                                                         |....................................                             |  56%
+  ordinary text without R code
+
+  |                                                                         |.......................................                          |  59%
+label: unnamed-chunk-8
+  |                                                                         |.........................................                        |  63%
+  ordinary text without R code
+
+  |                                                                         |...........................................                      |  67%
+label: unnamed-chunk-9
+  |                                                                         |..............................................                   |  70%
+  ordinary text without R code
+
+  |                                                                         |................................................                 |  74%
+label: unnamed-chunk-10
+  |                                                                         |...................................................              |  78%
+  ordinary text without R code
+
+  |                                                                         |.....................................................            |  81%
+label: unnamed-chunk-11
+  |                                                                         |.......................................................          |  85%
+  ordinary text without R code
+
+  |                                                                         |..........................................................       |  89%
+label: unnamed-chunk-12
+  |                                                                         |............................................................     |  93%
+  ordinary text without R code
+
+  |                                                                         |...............................................................  |  96%
+label: unnamed-chunk-13
+  |                                                                         |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: 3_filter_target_genes_exp.md
+
+Job Id: 44417386.mgr-04.i
+    Job_Name = 3_filter_target_genes_exp
+    Job_Owner = perrykai@dev-intel14-k20.i
+    job_state = R
+    queue = main
+    server = mgr-04.i
+    Checkpoint = u
+    ctime = Thu Jun 29 15:57:43 2017
+    Error_Path = dev-intel14-k20:/mnt/research/pigeqtl/analyses/microRNA/2_mir
+	na_characterization_expression/6_miRNA_eQT_target_prediction/scripts/3
+	_filter_target_genes_exp_literate/3_filter_target_genes_exp.out
+    exec_host = csn-029/18
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    mtime = Thu Jun 29 15:58:29 2017
+    Output_Path = dev-intel14-k20:/mnt/research/pigeqtl/analyses/microRNA/2_mi
+	rna_characterization_expression/6_miRNA_eQT_target_prediction/scripts/
+	3_filter_target_genes_exp_literate/3_filter_target_genes_exp.out
+    Priority = 0
+    qtime = Thu Jun 29 15:57:43 2017
+    Rerunable = False
+    Resource_List.nodes = 1:ppn=1:intel14
+    Resource_List.walltime = 00:05:00
+    Resource_List.mem = 1gb
+    Resource_List.nodect = 1
+    session_id = 76137
+    Variable_List = PBS_O_QUEUE=main,PBS_O_HOME=/mnt/home/perrykai,
+	PBS_O_LOGNAME=perrykai,
+	PBS_O_PATH=/opt/software/R/3.2.0--GCC-4.4.5/bin:/opt/software/powerto
+	ols/bin:/opt/software/cudatoolkit/6.0/include/CL:/opt/software/cudatoo
+	lkit/6.0/include:/opt/software/cudatoolkit/6.0/computeprof/bin:/opt/so
+	ftware/cudatoolkit/6.0/bin:/opt/software/Stata/15.0:/opt/software/MATL
+	AB/R2014a/bin:/opt/software/Python/2.7.2--GCC-4.4.5/bin:/opt/software/
+	cmake/2.8.5--GCC-4.4.5/bin:/opt/software/OpenMPI/1.4.3--GCC-4.4.5/bin:
+	/usr/lib64/qt-3.3/bin:/opt/software/lmod/bin:/opt/moab/bin:/usr/local/
+	bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/hpcc/bin:
+	/opt/ibutils/bin:/mnt/home/perrykai/gitclones/spin-my-script/,
+	PBS_O_MAIL=/var/spool/mail/perrykai,PBS_O_SHELL=/bin/bash,
+	PBS_O_LANG=en_US.UTF-8,
+	PBS_O_WORKDIR=/mnt/research/pigeqtl/analyses/microRNA/2_mirna_charact
+	erization_expression/6_miRNA_eQT_target_prediction/scripts,
+	PBS_O_HOST=dev-intel14-k20.i,PBS_O_SERVER=mgr-04
+    euser = perrykai
+    egroup = gene-expression
+    queue_type = E
+    etime = Thu Jun 29 15:57:43 2017
+    submit_args = base.sh
+    start_time = Thu Jun 29 15:58:29 2017
+    Walltime.Remaining = 290
+    start_count = 1
+    fault_tolerant = False
+    job_radix = 0
+    submit_host = dev-intel14-k20.i
+    init_work_dir = /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characteri
+	zation_expression/6_miRNA_eQT_target_prediction/scripts
+    request_version = 1
+
