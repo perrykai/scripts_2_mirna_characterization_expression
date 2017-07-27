@@ -51,9 +51,15 @@ rm(list=ls())
 setwd("/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/1_extract_mirna_info_from_core_output/scripts")
 
 hsa.blast.precursor<-read.table("../8_blastn_candidate_novel_miRNA_output/1_candidate_novel_miRNA_precursor_blastn_human_output_e5.txt", header=FALSE, sep="", col.names=c("query_id","dbseq_id","perc_identical","length","mismatch","gapopen","query_start","query_end","dbseq_start","dbseq_end","evalue","bitscore"))
+mature.hsa.blast<-read.table("../8_blastn_candidate_novel_miRNA_output/1_candidate_novel_miRNA_mature_blastn_human_output_e5.txt", header=FALSE, sep="", col.names=c("query_id","dbseq_id","perc_identical","length","mismatch","gapopen","query_start","query_end","dbseq_start","dbseq_end","evalue","bitscore"))
 eval1.hsa.blast.precursor<-read.table("../8_blastn_candidate_novel_miRNA_output/2_candidate_novel_miRNA_precursor_blastn_human_output_eval1.txt", header=FALSE, sep="", col.names=c("query_id","dbseq_id","perc_identical","length","mismatch","gapopen","query_start","query_end","dbseq_start","dbseq_end","evalue","bitscore"))
 eval1.hsa.blast.mature<-read.table("../8_blastn_candidate_novel_miRNA_output/2_candidate_novel_miRNA_mature_blastn_human_output_eval1.txt", header=FALSE, sep="", col.names=c("query_id","dbseq_id","perc_identical","length","mismatch","gapopen","query_start","query_end","dbseq_start","dbseq_end","evalue","bitscore"))
+```
 
+--------------------
+
+
+```r
 dim(hsa.blast.precursor)
 ```
 
@@ -112,7 +118,76 @@ str(hsa.blast.precursor)
 ```r
 hsa.blast.precursor$dbseq_id<-as.character(hsa.blast.precursor$dbseq_id)
 hsa.blast.precursor$query_id<-as.character(hsa.blast.precursor$query_id)
+```
 
+--------------------
+
+
+```r
+dim(mature.hsa.blast)
+```
+
+```
+## [1] 25 12
+```
+
+```r
+head(mature.hsa.blast)
+```
+
+```
+##                                       query_id       dbseq_id
+## 1 seq|GL892871.2_43622|candidatenovelmaturemiR hsa-miR-26b-5p
+## 2          seq|X_39130|candidatenovelmaturemiR hsa-miR-660-5p
+## 3           seq|3_7507|candidatenovelmaturemiR hsa-miR-590-3p
+## 4         seq|13_28851|candidatenovelmaturemiR hsa-miR-26a-5p
+## 5 seq|GL894231.1_44092|candidatenovelmaturemiR hsa-miR-655-3p
+## 6 seq|GL894231.1_44082|candidatenovelmaturemiR hsa-miR-485-3p
+##   perc_identical length mismatch gapopen query_start query_end dbseq_start
+## 1         100.00     21        0       0           1        21           1
+## 2         100.00     22        0       0           1        22           1
+## 3         100.00     21        0       0           1        21           1
+## 4          95.45     22        1       0           1        22           1
+## 5         100.00     22        0       0           1        22           1
+## 6         100.00     22        0       0           1        22           1
+##   dbseq_end evalue bitscore
+## 1        21  9e-08     42.1
+## 2        22  2e-08     44.1
+## 3        21  8e-08     42.1
+## 4        22  5e-06     36.2
+## 5        22  2e-08     44.1
+## 6        22  2e-08     44.1
+```
+
+```r
+str(mature.hsa.blast)
+```
+
+```
+## 'data.frame':	25 obs. of  12 variables:
+##  $ query_id      : Factor w/ 21 levels "seq|1_1168|candidatenovelmaturemiR",..: 12 19 9 6 16 14 13 3 17 17 ...
+##  $ dbseq_id      : Factor w/ 25 levels "hsa-miR-122-3p",..: 9 24 21 8 23 18 17 22 15 16 ...
+##  $ perc_identical: num  100 100 100 95.5 100 ...
+##  $ length        : int  21 22 21 22 22 22 22 22 19 18 ...
+##  $ mismatch      : int  0 0 0 1 0 0 0 0 0 0 ...
+##  $ gapopen       : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ query_start   : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ query_end     : int  21 22 21 22 22 22 22 22 19 18 ...
+##  $ dbseq_start   : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ dbseq_end     : int  21 22 21 22 22 22 22 22 19 18 ...
+##  $ evalue        : num  9e-08 2e-08 8e-08 5e-06 2e-08 2e-08 2e-08 2e-08 1e-06 5e-06 ...
+##  $ bitscore      : num  42.1 44.1 42.1 36.2 44.1 44.1 44.1 44.1 38.2 36.2 ...
+```
+
+```r
+mature.hsa.blast$dbseq_id<-as.character(mature.hsa.blast$dbseq_id)
+mature.hsa.blast$query_id<-as.character(mature.hsa.blast$query_id)
+```
+
+--------------------
+
+
+```r
 dim(eval1.hsa.blast.precursor)
 ```
 
@@ -171,7 +246,12 @@ str(eval1.hsa.blast.precursor)
 ```r
 eval1.hsa.blast.precursor$dbseq_id<-as.character(eval1.hsa.blast.precursor$dbseq_id)
 eval1.hsa.blast.precursor$query_id<-as.character(eval1.hsa.blast.precursor$query_id)
+```
 
+--------------------
+
+
+```r
 dim(eval1.hsa.blast.mature)
 ```
 
@@ -230,7 +310,12 @@ str(eval1.hsa.blast.mature)
 ```r
 eval1.hsa.blast.mature$dbseq_id<-as.character(eval1.hsa.blast.mature$dbseq_id)
 eval1.hsa.blast.mature$query_id<-as.character(eval1.hsa.blast.mature$query_id)
+```
 
+--------------------
+
+
+```r
 load("../5_putative_novel_miRNA_filtered_candidates.Rdata")
 
 dim(novelmir10sigrandfoldmincounts)
@@ -555,6 +640,243 @@ head(novelmir.abundance)
 
 ```r
 novelmir.provisional.ids<-unique(novelmir.abundance$provisional.id)
+```
+
+---------------------------------------
+
+Now to repeat the same analysis on the candidate novel mature miRNAs with BLAST results at an e-value of 1x10-5
+
+First, return the name of the mature sequences to the way they were before BLASTing at e-value = 1x10^-5.
+
+
+```r
+mature.hsa.blast$seqname<-sapply(strsplit(mature.hsa.blast$query_id, "|", fixed=TRUE),'[',2)
+head(mature.hsa.blast)
+```
+
+```
+##                                       query_id       dbseq_id
+## 1 seq|GL892871.2_43622|candidatenovelmaturemiR hsa-miR-26b-5p
+## 2          seq|X_39130|candidatenovelmaturemiR hsa-miR-660-5p
+## 3           seq|3_7507|candidatenovelmaturemiR hsa-miR-590-3p
+## 4         seq|13_28851|candidatenovelmaturemiR hsa-miR-26a-5p
+## 5 seq|GL894231.1_44092|candidatenovelmaturemiR hsa-miR-655-3p
+## 6 seq|GL894231.1_44082|candidatenovelmaturemiR hsa-miR-485-3p
+##   perc_identical length mismatch gapopen query_start query_end dbseq_start
+## 1         100.00     21        0       0           1        21           1
+## 2         100.00     22        0       0           1        22           1
+## 3         100.00     21        0       0           1        21           1
+## 4          95.45     22        1       0           1        22           1
+## 5         100.00     22        0       0           1        22           1
+## 6         100.00     22        0       0           1        22           1
+##   dbseq_end evalue bitscore          seqname
+## 1        21  9e-08     42.1 GL892871.2_43622
+## 2        22  2e-08     44.1          X_39130
+## 3        21  8e-08     42.1           3_7507
+## 4        22  5e-06     36.2         13_28851
+## 5        22  2e-08     44.1 GL894231.1_44092
+## 6        22  2e-08     44.1 GL894231.1_44082
+```
+
+Identify the unique number of sequences with BLAST hits at eval = 1x10^-5
+
+
+```r
+matureseqids<-unique(mature.hsa.blast$seqname)
+length(matureseqids)
+```
+
+```
+## [1] 21
+```
+
+```r
+matureseqids
+```
+
+```
+##  [1] "GL892871.2_43622" "X_39130"          "3_7507"          
+##  [4] "13_28851"         "GL894231.1_44092" "GL894231.1_44082"
+##  [7] "GL894231.1_44074" "12_25369"         "GL894231.1_44108"
+## [10] "1_1168"           "X_39122"          "X_39256"         
+## [13] "7_18912"          "13_28053"         "6_14565"         
+## [16] "1_3654"           "X_40048"          "12_26433"        
+## [19] "GL894231.1_44088" "1_1860"           "2_5120"
+```
+
+Determine where the sequences with BLAST results at eval = 1x10^-5 match in the candidate novel miRNAs dataset
+
+
+```r
+match(matureseqids, rownames(novelmir10sigrandfoldmincounts))
+```
+
+```
+##  [1]   1   2   4   5   6  10  12  13  15  16  17  20  22  26  32  55  67
+## [18]  74  79  92 122
+```
+
+```r
+rownames(novelmir10sigrandfoldmincounts)%in%matureseqids
+```
+
+```
+##   [1]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE
+##  [12]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE FALSE  TRUE FALSE  TRUE
+##  [23] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
+##  [34] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [45] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE
+##  [56] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [67]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE
+##  [78] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [89] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [100] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [111] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [122]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+```
+
+Subset the information on the candidate miRNAs based on those with BLAST results at eval = 1x10^-5.
+
+
+```r
+mature.novelmir.abundance<-novelmir10sigrandfoldmincounts[matureseqids, c("provisional.id", "miRDeep2.score", "total.read.count", "mature.read.count", "star.read.count", "example.miRBase.miRNA.with.the.same.seed", "precursor.coordinate")]
+```
+
+Is this object ordered by miRDeep2 score or by total.read.count?
+
+
+```r
+sum(rownames(mature.novelmir.abundance[order(mature.novelmir.abundance$miRDeep2.score, decreasing = TRUE),])!=rownames(mature.novelmir.abundance))
+```
+
+```
+## [1] 0
+```
+
+```r
+sum(rownames(mature.novelmir.abundance[order(mature.novelmir.abundance$total.read.count, decreasing = TRUE),])!=rownames(mature.novelmir.abundance))
+```
+
+```
+## [1] 0
+```
+
+Combine the information; are the predicted miRNAs with BLAST results at eval = 1x10^-5 the most abundant predicted miRNAs?
+
+This object (candidate novels with BLAST hits at eval = 1x10^-5) will be saved to visually inspect and summarize.
+
+
+```r
+mature.novelmir.abundance<-cbind(mature.novelmir.abundance[match(mature.hsa.blast$seqname, rownames(mature.novelmir.abundance)),], mature.hsa.blast)
+sum(mature.novelmir.abundance$seqname != mature.novelmir.abundance$provisional.id)
+```
+
+```
+## [1] 0
+```
+
+```r
+head(mature.novelmir.abundance)
+```
+
+```
+##                    provisional.id miRDeep2.score total.read.count
+## GL892871.2_43622 GL892871.2_43622       572746.3          1123410
+## X_39130                   X_39130       136780.7           268282
+## 3_7507                     3_7507        57547.6           112871
+## 13_28851                 13_28851        40621.2            79667
+## GL894231.1_44092 GL894231.1_44092        12387.7            24290
+## GL894231.1_44082 GL894231.1_44082         6189.5            12132
+##                  mature.read.count star.read.count
+## GL892871.2_43622           1119829            3581
+## X_39130                     268080             202
+## 3_7507                      104821            8050
+## 13_28851                     79633              34
+## GL894231.1_44092             24219              71
+## GL894231.1_44082              8390            3742
+##                  example.miRBase.miRNA.with.the.same.seed
+## GL892871.2_43622                           hsa-miR-26a-5p
+## X_39130                                    hsa-miR-660-5p
+## 3_7507                                     hsa-miR-590-3p
+## 13_28851                                   hsa-miR-26a-5p
+## GL894231.1_44092                           hsa-miR-655-3p
+## GL894231.1_44082                           hsa-miR-485-3p
+##                       precursor.coordinate
+## GL892871.2_43622 GL892871.2:56019..56076:+
+## X_39130             X:48640826..48640884:+
+## 3_7507              3:11024999..11025060:+
+## 13_28851           13:24885255..24885316:-
+## GL894231.1_44092 GL894231.1:23071..23131:-
+## GL894231.1_44082 GL894231.1:16616..16675:-
+##                                                      query_id
+## GL892871.2_43622 seq|GL892871.2_43622|candidatenovelmaturemiR
+## X_39130                   seq|X_39130|candidatenovelmaturemiR
+## 3_7507                     seq|3_7507|candidatenovelmaturemiR
+## 13_28851                 seq|13_28851|candidatenovelmaturemiR
+## GL894231.1_44092 seq|GL894231.1_44092|candidatenovelmaturemiR
+## GL894231.1_44082 seq|GL894231.1_44082|candidatenovelmaturemiR
+##                        dbseq_id perc_identical length mismatch gapopen
+## GL892871.2_43622 hsa-miR-26b-5p         100.00     21        0       0
+## X_39130          hsa-miR-660-5p         100.00     22        0       0
+## 3_7507           hsa-miR-590-3p         100.00     21        0       0
+## 13_28851         hsa-miR-26a-5p          95.45     22        1       0
+## GL894231.1_44092 hsa-miR-655-3p         100.00     22        0       0
+## GL894231.1_44082 hsa-miR-485-3p         100.00     22        0       0
+##                  query_start query_end dbseq_start dbseq_end evalue
+## GL892871.2_43622           1        21           1        21  9e-08
+## X_39130                    1        22           1        22  2e-08
+## 3_7507                     1        21           1        21  8e-08
+## 13_28851                   1        22           1        22  5e-06
+## GL894231.1_44092           1        22           1        22  2e-08
+## GL894231.1_44082           1        22           1        22  2e-08
+##                  bitscore          seqname
+## GL892871.2_43622     42.1 GL892871.2_43622
+## X_39130              44.1          X_39130
+## 3_7507               42.1           3_7507
+## 13_28851             36.2         13_28851
+## GL894231.1_44092     44.1 GL894231.1_44092
+## GL894231.1_44082     44.1 GL894231.1_44082
+```
+
+```r
+mature.novelmir.abundance<-mature.novelmir.abundance[,c("provisional.id", "miRDeep2.score", "total.read.count", "example.miRBase.miRNA.with.the.same.seed", "dbseq_id", "perc_identical", "evalue", "precursor.coordinate")]
+dim(mature.novelmir.abundance)
+```
+
+```
+## [1] 25  8
+```
+
+```r
+head(mature.novelmir.abundance)
+```
+
+```
+##                    provisional.id miRDeep2.score total.read.count
+## GL892871.2_43622 GL892871.2_43622       572746.3          1123410
+## X_39130                   X_39130       136780.7           268282
+## 3_7507                     3_7507        57547.6           112871
+## 13_28851                 13_28851        40621.2            79667
+## GL894231.1_44092 GL894231.1_44092        12387.7            24290
+## GL894231.1_44082 GL894231.1_44082         6189.5            12132
+##                  example.miRBase.miRNA.with.the.same.seed       dbseq_id
+## GL892871.2_43622                           hsa-miR-26a-5p hsa-miR-26b-5p
+## X_39130                                    hsa-miR-660-5p hsa-miR-660-5p
+## 3_7507                                     hsa-miR-590-3p hsa-miR-590-3p
+## 13_28851                                   hsa-miR-26a-5p hsa-miR-26a-5p
+## GL894231.1_44092                           hsa-miR-655-3p hsa-miR-655-3p
+## GL894231.1_44082                           hsa-miR-485-3p hsa-miR-485-3p
+##                  perc_identical evalue      precursor.coordinate
+## GL892871.2_43622         100.00  9e-08 GL892871.2:56019..56076:+
+## X_39130                  100.00  2e-08    X:48640826..48640884:+
+## 3_7507                   100.00  8e-08    3:11024999..11025060:+
+## 13_28851                  95.45  5e-06   13:24885255..24885316:-
+## GL894231.1_44092         100.00  2e-08 GL894231.1:23071..23131:-
+## GL894231.1_44082         100.00  2e-08 GL894231.1:16616..16675:-
+```
+
+```r
+mature.novelmir.provisional.ids<-unique(mature.novelmir.abundance$provisional.id)
 ```
 
 ---------------------------------------
@@ -1360,6 +1682,7 @@ eval1.mature.subset[111:113,]
 
 ```r
 write.table(novelmir.abundance, file="../8_blastn_candidate_novel_miRNA_output/3_candidate_novel_miRNA_precursor_abundance_e5.txt")
+write.table(mature.novelmir.abundance, file="../8_blastn_candidate_novel_miRNA_output/3_candidate_novel_miRNA_mature_abundance_e5.txt")
 write.table(sumblast, file="../8_blastn_candidate_novel_miRNA_output/4_filtered_candidate_novel_precursor_eval1.txt")
 write.table(sumblast.mature, file="../8_blastn_candidate_novel_miRNA_output/5_filtered_candidate_novel_mature_eval1.txt")
 ```
@@ -1369,5 +1692,6 @@ Create a list of the pertinent precursor provisional.ids to extract the correct 
 
 ```r
 write.table(novelmir.provisional.ids, file="../8_blastn_candidate_novel_miRNA_output/6_filtered_candidate_novel_miRNA_precursor_ids_e5.txt", row.names=FALSE, col.names=FALSE)
+write.table(mature.novelmir.provisional.ids, file="../8_blastn_candidate_novel_miRNA_output/6_filtered_candidate_novel_miRNA_mature_ids_e5.txt", row.names=FALSE, col.names=FALSE)
 ```
 
