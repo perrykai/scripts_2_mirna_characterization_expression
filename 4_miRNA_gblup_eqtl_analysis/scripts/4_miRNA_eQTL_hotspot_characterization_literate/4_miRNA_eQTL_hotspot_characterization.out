@@ -1,0 +1,200 @@
+
+
+processing file: 4_miRNA_eQTL_hotspot_characterization.Rmd
+  |                                                                         |                                                                 |   0%  |                                                                         |.                                                                |   2%
+  ordinary text without R code
+
+  |                                                                         |...                                                              |   4%
+label: unnamed-chunk-1
+  |                                                                         |....                                                             |   6%
+  ordinary text without R code
+
+  |                                                                         |.....                                                            |   8%
+label: unnamed-chunk-2
+  |                                                                         |.......                                                          |  10%
+  ordinary text without R code
+
+  |                                                                         |........                                                         |  12%
+label: unnamed-chunk-3
+  |                                                                         |.........                                                        |  15%
+  ordinary text without R code
+
+  |                                                                         |...........                                                      |  17%
+label: unnamed-chunk-4
+  |                                                                         |............                                                     |  19%
+  ordinary text without R code
+
+  |                                                                         |..............                                                   |  21%
+label: unnamed-chunk-5
+  |                                                                         |...............                                                  |  23%
+  ordinary text without R code
+
+  |                                                                         |................                                                 |  25%
+label: unnamed-chunk-6
+  |                                                                         |..................                                               |  27%
+  ordinary text without R code
+
+  |                                                                         |...................                                              |  29%
+label: unnamed-chunk-7
+  |                                                                         |....................                                             |  31%
+  ordinary text without R code
+
+  |                                                                         |......................                                           |  33%
+label: unnamed-chunk-8
+  |                                                                         |.......................                                          |  35%
+  ordinary text without R code
+
+  |                                                                         |........................                                         |  38%
+label: unnamed-chunk-9
+  |                                                                         |..........................                                       |  40%
+  ordinary text without R code
+
+  |                                                                         |...........................                                      |  42%
+label: unnamed-chunk-10
+  |                                                                         |............................                                     |  44%
+  ordinary text without R code
+
+  |                                                                         |..............................                                   |  46%
+label: unnamed-chunk-11
+  |                                                                         |...............................                                  |  48%
+  ordinary text without R code
+
+  |                                                                         |................................                                 |  50%
+label: unnamed-chunk-12
+  |                                                                         |..................................                               |  52%
+  ordinary text without R code
+
+  |                                                                         |...................................                              |  54%
+label: unnamed-chunk-13
+  |                                                                         |.....................................                            |  56%
+  ordinary text without R code
+
+  |                                                                         |......................................                           |  58%
+label: unnamed-chunk-14
+  |                                                                         |.......................................                          |  60%
+  ordinary text without R code
+
+  |                                                                         |.........................................                        |  62%
+label: unnamed-chunk-15
+  |                                                                         |..........................................                       |  65%
+  ordinary text without R code
+
+  |                                                                         |...........................................                      |  67%
+label: unnamed-chunk-16
+  |                                                                         |.............................................                    |  69%
+  ordinary text without R code
+
+  |                                                                         |..............................................                   |  71%
+label: unnamed-chunk-17
+  |                                                                         |...............................................                  |  73%
+  ordinary text without R code
+
+  |                                                                         |.................................................                |  75%
+label: unnamed-chunk-18
+  |                                                                         |..................................................               |  77%
+  ordinary text without R code
+
+  |                                                                         |...................................................              |  79%
+label: unnamed-chunk-19
+  |                                                                         |.....................................................            |  81%
+  ordinary text without R code
+
+  |                                                                         |......................................................           |  83%
+label: unnamed-chunk-20
+  |                                                                         |........................................................         |  85%
+  ordinary text without R code
+
+  |                                                                         |.........................................................        |  88%
+label: miRNA4_hotspots (with options) 
+List of 3
+ $ dpi     : num 300
+ $ dev     : chr "tiff"
+ $ dev.args: language list(tiff = list(compression = "lzw"))
+
+  |                                                                         |..........................................................       |  90%
+  ordinary text without R code
+
+  |                                                                         |............................................................     |  92%
+label: miRNA5_hotspots (with options) 
+List of 3
+ $ dpi     : num 300
+ $ dev     : chr "tiff"
+ $ dev.args: language list(tiff = list(compression = "lzw"))
+
+  |                                                                         |.............................................................    |  94%
+label: geno_cor_hotspots (with options) 
+List of 3
+ $ dpi     : num 300
+ $ dev     : chr "tiff"
+ $ dev.args: language list(tiff = list(compression = "lzw"))
+
+  |                                                                         |..............................................................   |  96%
+  ordinary text without R code
+
+  |                                                                         |................................................................ |  98%
+label: unnamed-chunk-21
+  |                                                                         |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: 4_miRNA_eQTL_hotspot_characterization.md
+
+Job Id: 45107635.mgr-04.i
+    Job_Name = 4_miRNA_eQTL_hotspot_characterization
+    Job_Owner = perrykai@dev-intel14.i
+    job_state = R
+    queue = main
+    server = mgr-04.i
+    Checkpoint = u
+    ctime = Fri Jul 14 15:54:05 2017
+    Error_Path = dev-intel14:/mnt/research/pigeqtl/analyses/microRNA/2_mirna_c
+	haracterization_expression/4_miRNA_gblup_eqtl_analysis/scripts/4_miRNA
+	_eQTL_hotspot_characterization_literate/4_miRNA_eQTL_hotspot_character
+	ization.out
+    exec_host = css-103/9
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    mtime = Fri Jul 14 15:55:12 2017
+    Output_Path = dev-intel14:/mnt/research/pigeqtl/analyses/microRNA/2_mirna_
+	characterization_expression/4_miRNA_gblup_eqtl_analysis/scripts/4_miRN
+	A_eQTL_hotspot_characterization_literate/4_miRNA_eQTL_hotspot_characte
+	rization.out
+    Priority = 0
+    qtime = Fri Jul 14 15:54:05 2017
+    Rerunable = False
+    Resource_List.nodes = 1:ppn=1:intel14
+    Resource_List.walltime = 00:05:00
+    Resource_List.mem = 1gb
+    Resource_List.nodect = 1
+    session_id = 46572
+    Variable_List = PBS_O_QUEUE=main,PBS_O_HOME=/mnt/home/perrykai,
+	PBS_O_LOGNAME=perrykai,
+	PBS_O_PATH=/opt/software/R/3.2.0--GCC-4.4.5/bin:/opt/software/powerto
+	ols/bin:/opt/software/Stata/15.0/SE:/opt/software/MATLAB/R2014a/bin:/o
+	pt/software/Python/2.7.2--GCC-4.4.5/bin:/opt/software/cmake/2.8.5--GCC
+	-4.4.5/bin:/opt/software/OpenMPI/1.4.3--GCC-4.4.5/bin:/usr/lib64/qt-3.
+	3/bin:/opt/software/lmod/bin:/opt/moab/bin:/usr/local/bin:/bin:/usr/bi
+	n:/mnt/home/perrykai/gitclones/spin-my-script:/usr/local/sbin:/usr/sbi
+	n:/sbin:/usr/local/hpcc/bin:/opt/ibutils/bin:/mnt/home/perrykai/gitclo
+	nes/spin-my-script/,PBS_O_MAIL=/var/spool/mail/perrykai,
+	PBS_O_SHELL=/bin/bash,PBS_O_LANG=en_US.UTF-8,
+	PBS_O_WORKDIR=/mnt/research/pigeqtl/analyses/microRNA/2_mirna_charact
+	erization_expression/4_miRNA_gblup_eqtl_analysis/scripts,
+	PBS_O_HOST=dev-intel14.i,PBS_O_SERVER=mgr-04
+    euser = perrykai
+    egroup = gene-expression
+    queue_type = E
+    etime = Fri Jul 14 15:54:05 2017
+    submit_args = base.sh
+    start_time = Fri Jul 14 15:55:12 2017
+    Walltime.Remaining = 292
+    start_count = 1
+    fault_tolerant = False
+    job_radix = 0
+    submit_host = dev-intel14.i
+    init_work_dir = /mnt/research/pigeqtl/analyses/microRNA/2_mirna_characteri
+	zation_expression/4_miRNA_gblup_eqtl_analysis/scripts
+    request_version = 1
+
