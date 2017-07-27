@@ -115,3 +115,4 @@ plot(orddgcpmsums/sum(orddgcpmsums))
 
 #' ## Save data
 save(orddgcpmsums, file="../1_mirna_abundance_normreadcounts_dgecpm_summary.Rdata")
+write.table(orddgcpmsums, file="../1_mirna_abundance_normreadcounts_dgecpm_summary.txt", quote=FALSE, col.names=FALSE)

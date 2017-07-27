@@ -43,6 +43,13 @@ THIS ANALYSIS COMPLETED IN R/3.2.0
 ```r
 setwd("/mnt/research/pigeqtl/analyses/microRNA/2_mirna_characterization_expression/5_mirna_abundance_variance/scripts")
 library(limma)
+```
+
+```
+## Loading required package: methods
+```
+
+```r
 library(edgeR)
 ```
 
@@ -223,7 +230,12 @@ dge$samples[1:5,]
 ```
 
 ```
-## Error in eval(expr, envir, enclos): could not find function "getGeneric"
+##      group lib.size norm.factors
+## 1034     1  1462358     1.060057
+## 1036     1   830436     1.061221
+## 1041     1   944837     1.062527
+## 1049     1  1081483     1.102092
+## 1058     1  1257197     1.202700
 ```
 
 ```r
@@ -384,5 +396,6 @@ plot(orddgcpmsums/sum(orddgcpmsums))
 
 ```r
 save(orddgcpmsums, file="../1_mirna_abundance_normreadcounts_dgecpm_summary.Rdata")
+write.table(orddgcpmsums, file="../1_mirna_abundance_normreadcounts_dgecpm_summary.txt", quote=FALSE, col.names=FALSE)
 ```
 
